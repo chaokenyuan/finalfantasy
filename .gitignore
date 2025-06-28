@@ -1,6 +1,6 @@
 # common
 *~
-
+target/
 # log
 *.log
 
@@ -59,3 +59,6 @@ gradle-app.setting
 # init data sql
 data.sql
 buildSrc/.gradle
+
+#maven
+.mvn/
