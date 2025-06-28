@@ -1,0 +1,36 @@
+# Local development environment configuration
+finalfantasy:
+  server:
+    http:
+      port: 8080
+    grpc:
+      port: 9090
+      enabled: true
+    vertx:
+      http-port: 8081
+      socket-port: 8082
+
+# Spring Boot server port
+server:
+  port: 8080
+
+# gRPC server configuration
+grpc:
+  server:
+    port: 9090
+    enabled: true
+
+# Local specific configurations
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    net.game.finalfantasy: DEBUG
+    io.grpc: INFO

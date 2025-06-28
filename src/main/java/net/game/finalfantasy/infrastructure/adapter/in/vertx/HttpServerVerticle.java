@@ -6,18 +6,23 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import net.game.finalfantasy.infrastructure.config.ServerPortsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HttpServerVerticle extends AbstractVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServerVerticle.class);
-    private static final int PORT = 8081; // Different from Spring Boot's default 8080
+
+    @Autowired
+    private ServerPortsConfig serverPortsConfig;
 
     @Override
     public void start(Promise<Void> startPromise) {
+        int port = serverPortsConfig.getVertx().getHttpPort();
         HttpServer server = vertx.createHttpServer();
         Router router = Router.router(vertx);
 
@@ -27,9 +32,9 @@ public class HttpServerVerticle extends AbstractVerticle {
         router.post("/vertx/game/action").handler(this::gameAction);
 
         server.requestHandler(router)
-                .listen(PORT)
+                .listen(port)
                 .onSuccess(result -> {
-                    logger.info("Vert.x HTTP server started on port {}", PORT);
+                    logger.info("Vert.x HTTP server started on port {}", port);
                     startPromise.complete();
                 })
                 .onFailure(cause -> {
@@ -66,7 +71,7 @@ public class HttpServerVerticle extends AbstractVerticle {
             try {
                 JsonObject action = body.toJsonObject();
                 String actionType = action.getString("action", "unknown");
-                
+
                 JsonObject response = new JsonObject()
                         .put("action_received", actionType)
                         .put("status", "processed")
@@ -80,7 +85,7 @@ public class HttpServerVerticle extends AbstractVerticle {
                 JsonObject error = new JsonObject()
                         .put("error", "Invalid JSON")
                         .put("message", e.getMessage());
-                
+
                 context.response()
                         .setStatusCode(400)
                         .putHeader("Content-Type", "application/json")

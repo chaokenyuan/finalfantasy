@@ -1,0 +1,37 @@
+# SIT (System Integration Test) environment configuration
+finalfantasy:
+  server:
+    http:
+      port: 8180
+    grpc:
+      port: 9190
+      enabled: true
+    vertx:
+      http-port: 8181
+      socket-port: 8182
+
+# Spring Boot server port
+server:
+  port: 8180
+
+# gRPC server configuration
+grpc:
+  server:
+    port: 9190
+    enabled: true
+
+# SIT specific configurations
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    net.game.finalfantasy: INFO
+    io.grpc: WARN
+    root: INFO

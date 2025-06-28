@@ -5,24 +5,29 @@ import io.vertx.core.Promise;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetSocket;
 import io.vertx.core.json.JsonObject;
+import net.game.finalfantasy.infrastructure.config.ServerPortsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SocketServerVerticle extends AbstractVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(SocketServerVerticle.class);
-    private static final int PORT = 8082; // Changed to avoid conflict with HttpServerVerticle
+
+    @Autowired
+    private ServerPortsConfig serverPortsConfig;
 
     @Override
     public void start(Promise<Void> startPromise) {
+        int port = serverPortsConfig.getVertx().getSocketPort();
         NetServer server = vertx.createNetServer();
 
         server.connectHandler(this::handleConnection)
-                .listen(PORT)
+                .listen(port)
                 .onSuccess(result -> {
-                    logger.info("Socket server started on port {}", PORT);
+                    logger.info("Socket server started on port {}", port);
                     startPromise.complete();
                 })
                 .onFailure(cause -> {

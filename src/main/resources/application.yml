@@ -18,3 +18,26 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+  profiles:
+    active: local
+
+# Server port configurations
+server:
+  port: ${finalfantasy.server.http.port:8080}
+
+finalfantasy:
+  server:
+    http:
+      port: 8080
+    grpc:
+      port: 9090
+      enabled: true
+    vertx:
+      http-port: 8081
+      socket-port: 8082
+
+# gRPC server configuration
+grpc:
+  server:
+    port: ${finalfantasy.server.grpc.port:9090}
+    enabled: ${finalfantasy.server.grpc.enabled:true}
