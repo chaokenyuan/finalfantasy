@@ -20,7 +20,8 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = {
         "spring.datasource.url=jdbc:h2:mem:testdb",
         "spring.jpa.hibernate.ddl-auto=create-drop",
-        "logging.level.net.game.finalfantasy=DEBUG"
+        "logging.level.net.game.finalfantasy=DEBUG",
+        "spring.grpc.server.enabled=false"
 })
 public class CucumberSpringConfiguration {
 

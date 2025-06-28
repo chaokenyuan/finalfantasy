@@ -5,8 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.And;
-import io.cucumber.java.zh_tw.假設;
-import io.cucumber.java.zh_tw.那麼;
+import lombok.RequiredArgsConstructor;
 import net.game.finalfantasy.domain.model.hero.Hero;
 import net.game.finalfantasy.domain.model.stats.HeroStats;
 import net.game.finalfantasy.application.SharedTestContext;
@@ -210,28 +209,28 @@ public class GameRulesValidationStepDefinitions {
     }
 
     // Additional step definitions for game rules validation scenarios
-    @假設("該英雄的基礎ATK為{int}")
+    @Given("該英雄的基礎ATK為{int}")
     public void 該英雄的基礎atk為(int baseAtk) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(baseAtk, currentHero.getCurrentStats().getAtk());
     }
 
-    @假設("該英雄的基礎HP為{int}")
+    @Given("該英雄的基礎HP為{int}")
     public void 該英雄的基礎hp為(int baseHp) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(baseHp, currentHero.getCurrentStats().getHp());
     }
 
-    @假設("該英雄的基礎SpATK為{int}")
+    @Given("該英雄的基礎SpATK為{int}")
     public void 該英雄的基礎spatk為(int baseSpAtk) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(baseSpAtk, currentHero.getCurrentStats().getSpAtk());
     }
 
-    @假設("該英雄的基礎DEF為{int}")
+    @Given("該英雄的基礎DEF為{int}")
     public void 該英雄的基礎def為(int baseDef) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
@@ -300,35 +299,35 @@ public class GameRulesValidationStepDefinitions {
         }
     }
 
-    @那麼("最終的ATK應該是{int}")
+    @Then("最終的ATK應該是{int}")
     public void 最終的atk應該是(int expectedAtk) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(expectedAtk, currentHero.getCurrentStats().getAtk());
     }
 
-    @那麼("最終的HP應該是{int}")
+    @Then("最終的HP應該是{int}")
     public void 最終的hp應該是(int expectedHp) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(expectedHp, currentHero.getCurrentStats().getHp());
     }
 
-    @那麼("最終的SpATK應該是{int}")
+    @Then("最終的SpATK應該是{int}")
     public void 最終的spatk應該是(int expectedSpAtk) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(expectedSpAtk, currentHero.getCurrentStats().getSpAtk());
     }
 
-    @那麼("最終的DEF應該是{int}")
+    @Then("最終的DEF應該是{int}")
     public void 最終的def應該是(int expectedDef) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
         assertEquals(expectedDef, currentHero.getCurrentStats().getDef());
     }
 
-    @那麼("所有加成應該累積應用")
+    @Then("所有加成應該累積應用")
     public void 所有加成應該累積應用() {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
@@ -354,13 +353,13 @@ public class GameRulesValidationStepDefinitions {
         }
     }
 
-    @那麼("操作應該在{int}秒內完成")
+    @Then("操作應該在{int}秒內完成")
     public void 操作應該在秒內完成(int maxSeconds) {
         long elapsedTime = System.currentTimeMillis() - operationStartTime;
         assertTrue(elapsedTime < maxSeconds * 1000, "Operation took " + elapsedTime + "ms, expected less than " + (maxSeconds * 1000) + "ms");
     }
 
-    @那麼("記憶體使用量應該保持在可接受的限制內")
+    @And("記憶體使用量應該保持在可接受的限制內")
     public void 記憶體使用量應該保持在可接受的限制內() {
         // Simple memory check
         Runtime runtime = Runtime.getRuntime();
@@ -370,7 +369,7 @@ public class GameRulesValidationStepDefinitions {
         assertTrue(memoryUsagePercentage < 90, "Memory usage is " + memoryUsagePercentage + "%, which is too high");
     }
 
-    @那麼("{string}的ATK應該是{int}")
+    @And("{string}的ATK應該是{int}")
     public void 的atk應該是(String heroName, int expectedAtk) {
         SharedTestContext.TestHero hero = sharedContext.getTestHero(heroName);
         if (hero != null) {
@@ -384,7 +383,7 @@ public class GameRulesValidationStepDefinitions {
         }
     }
 
-    @那麼("屬性不應該超過允許的最大值")
+    @And("屬性不應該超過允許的最大值")
     public void 屬性不應該超過允許的最大值() {
         Hero currentHero = sharedContext.getCurrentHero();
         if (currentHero != null) {
@@ -406,7 +405,7 @@ public class GameRulesValidationStepDefinitions {
     }
 
     // Final missing step definitions for edge cases
-    @那麼("該英雄的ATK不應該低於{int}")
+    @And("該英雄的ATK不應該低於{int}")
     public void 該英雄的atk不應該低於(int minValue) {
         Hero currentHero = sharedContext.getCurrentHero();
         assertNotNull(currentHero);
@@ -414,12 +413,12 @@ public class GameRulesValidationStepDefinitions {
             "ATK is " + currentHero.getCurrentStats().getAtk() + ", should not be below " + minValue);
     }
 
-    @那麼("該裝備應該被拒絕")
+    @And("該裝備應該被拒絕")
     public void 該裝備應該被拒絕() {
         assertTrue(equipmentRejected, "Equipment should have been rejected");
     }
 
-    @那麼("應該顯示適當的錯誤訊息")
+    @And("應該顯示適當的錯誤訊息")
     public void 應該顯示適當的錯誤訊息() {
         assertNotNull(lastErrorMessage, "Error message should be displayed");
         assertTrue(lastErrorMessage.contains("cannot be equipped by") || 
@@ -428,7 +427,7 @@ public class GameRulesValidationStepDefinitions {
             "Error message should indicate type mismatch, actual message: " + lastErrorMessage);
     }
 
-    @那麼("只有最後裝備的武器應該提供加成")
+    @And("只有最後裝備的武器應該提供加成")
     public void 只有最後裝備的武器應該提供加成() {
         // This would need to check that only one weapon bonus is applied
         Hero currentHero = sharedContext.getCurrentHero();
@@ -436,7 +435,7 @@ public class GameRulesValidationStepDefinitions {
         // For testing purposes, we'll just verify the hero exists
     }
 
-    @那麼("之前武器的加成應該被移除")
+    @And("之前武器的加成應該被移除")
     public void 之前武器的加成應該被移除() {
         // This would need to verify that previous weapon bonuses are removed
         Hero currentHero = sharedContext.getCurrentHero();
@@ -450,25 +449,25 @@ public class GameRulesValidationStepDefinitions {
         // This would run all validation checks
     }
 
-    @那麼("所有英雄創建測試應該通過")
+    @Then("所有英雄創建測試應該通過")
     public void 所有英雄創建測試應該通過() {
         // Verify hero creation functionality
         assertTrue(true, "Hero creation tests should pass");
     }
 
-    @那麼("所有裝備裝飾器測試應該通過")
+    @And("所有裝備裝飾器測試應該通過")
     public void 所有裝備裝飾器測試應該通過() {
         // Verify equipment decorator functionality
         assertTrue(true, "Equipment decorator tests should pass");
     }
 
-    @那麼("所有疊加裝備測試應該通過")
+    @And("所有疊加裝備測試應該通過")
     public void 所有疊加裝備測試應該通過() {
         // Verify equipment stacking functionality
         assertTrue(true, "Equipment stacking tests should pass");
     }
 
-    @那麼("最終結果應該表示成功")
+    @And("最終結果應該表示成功")
     public void 最終結果應該表示成功() {
         // Final validation check
         assertTrue(true, "Final validation should indicate success");

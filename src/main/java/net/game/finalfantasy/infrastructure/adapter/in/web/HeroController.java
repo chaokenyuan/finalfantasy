@@ -1,5 +1,6 @@
 package net.game.finalfantasy.infrastructure.adapter.in.web;
 
+import lombok.RequiredArgsConstructor;
 import net.game.finalfantasy.application.port.in.HeroManagementUseCase;
 import net.game.finalfantasy.domain.model.hero.Hero;
 import net.game.finalfantasy.infrastructure.adapter.in.web.dto.CreateHeroRequest;
@@ -11,14 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/heroes")
+@RequiredArgsConstructor
 public class HeroController {
-    
+
     private final HeroManagementUseCase heroManagementUseCase;
-    
-    public HeroController(HeroManagementUseCase heroManagementUseCase) {
-        this.heroManagementUseCase = heroManagementUseCase;
-    }
-    
+
     @PostMapping
     public ResponseEntity<HeroResponse> createHero(@RequestBody CreateHeroRequest request) {
         try {
@@ -28,7 +26,7 @@ public class HeroController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     @GetMapping("/{name}")
     public ResponseEntity<HeroResponse> getHero(@PathVariable String name) {
         try {
@@ -38,7 +36,7 @@ public class HeroController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("/{name}/equip")
     public ResponseEntity<HeroResponse> equipItem(@PathVariable String name, 
                                                  @RequestBody EquipItemRequest request) {
@@ -50,7 +48,7 @@ public class HeroController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     @DeleteMapping("/{name}/unequip/{slot}")
     public ResponseEntity<HeroResponse> unequipItem(@PathVariable String name, 
                                                    @PathVariable String slot) {
@@ -62,7 +60,7 @@ public class HeroController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     @GetMapping("/{name}/exists")
     public ResponseEntity<Boolean> heroExists(@PathVariable String name) {
         boolean exists = heroManagementUseCase.heroExists(name);

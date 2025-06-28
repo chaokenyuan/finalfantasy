@@ -1,22 +1,20 @@
 package net.game.finalfantasy.application;
 
+import lombok.RequiredArgsConstructor;
 import net.game.finalfantasy.application.port.in.HeroManagementUseCase;
 import net.game.finalfantasy.application.port.out.HeroRepository;
 import net.game.finalfantasy.domain.model.hero.Hero;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class SharedTestContext {
 
-    @Autowired
-    private HeroManagementUseCase heroManagementUseCase;
-
-    @Autowired
-    private HeroRepository heroRepository;
+    private final HeroManagementUseCase heroManagementUseCase;
+    private final HeroRepository heroRepository;
 
     private Hero currentHero;
     private Map<String, TestHero> testHeroes = new HashMap<>();
