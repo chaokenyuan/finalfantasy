@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features/game.feature",
-        glue = {"net.game.finalfantasy.cucumber", "net.game.finalfantasy.domain"},
+        glue = {"net.game.finalfantasy.cucumber", "net.game.finalfantasy.domain", "net.game.finalfantasy.infrastructure.adapter.in.web"},
         plugin = {"pretty"},
         tags = "not @ignore"
 )
