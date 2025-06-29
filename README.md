@@ -46,6 +46,13 @@ The project follows **Hexagonal Architecture** (Ports and Adapters) with the fol
 - **Spring Boot 3.5.3**
 - **Spring gRPC**
 - **Vert.x 4.5.10** - For high-performance HTTP and socket servers
+- **H2 Database** - In-memory database for development and testing
+- **Spring Data JPA** - Data persistence layer
+- **Spring Batch** - Batch processing capabilities
+- **Spring WebSocket** - Real-time communication support
+- **Spring Mail** - Email functionality
+- **Spring Web Services** - SOAP web services support
+- **Docker Compose** - Container orchestration support
 - **Swagger/OpenAPI** - API documentation (`springdoc-openapi-starter-webmvc-ui` version 2.2.0)
 - **Cucumber** - Behavior-driven testing
 - **Lombok** - Code generation
@@ -362,7 +369,7 @@ finalfantasy/
 │   │   └── net/game/finalfantasy/domain/
 │   │       ├── model/            # Domain entities (Hero, Equipment, Stats)
 │   │       └── service/          # Domain services (Factories)
-│   └── src/test/                 # Domain tests and Cucumber features
+│   └── src/test/                 # Domain tests
 ├── finalfantasy-application/     # Application services and use cases
 │   ├── src/main/java/
 │   │   └── net/game/finalfantasy/application/
@@ -374,12 +381,19 @@ finalfantasy/
 │   │   └── net/game/finalfantasy/infrastructure/
 │   │       ├── adapter/          # Web controllers, repositories
 │   │       └── config/           # Configuration classes
-│   └── src/test/                 # Infrastructure tests
+│   └── src/test/                 # Infrastructure tests and Cucumber features
 ├── finalfantasy-web/            # Main application and web configuration
 │   ├── src/main/java/
 │   │   └── net/game/finalfantasy/
 │   │       └── FinalFantasyApplication.java
-│   └── src/main/resources/       # Application configuration files
+│   ├── src/main/resources/       # Application configuration files
+│   └── src/test/                 # Integration tests and Cucumber BDD tests
+│       └── java/net/game/finalfantasy/cucumber/
+│           ├── domain/           # Domain-specific test steps
+│           ├── CucumberSpringConfiguration.java
+│           ├── CucumberTestRunner.java
+│           └── TestConfiguration.java
+├── compose.yaml                 # Docker Compose configuration
 └── pom.xml                      # Parent POM configuration
 ```
 

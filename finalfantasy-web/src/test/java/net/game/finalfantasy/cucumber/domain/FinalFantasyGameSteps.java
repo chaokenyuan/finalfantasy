@@ -1,4 +1,4 @@
-package net.game.finalfantasy.cucumber.steps;
+package net.game.finalfantasy.cucumber.domain;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;

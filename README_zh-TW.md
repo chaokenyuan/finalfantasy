@@ -46,6 +46,13 @@
 - **Spring Boot 3.5.3**
 - **Spring gRPC**
 - **Vert.x 4.5.10** - 用於高效能 HTTP 和 Socket 伺服器
+- **H2 資料庫** - 用於開發和測試的記憶體資料庫
+- **Spring Data JPA** - 資料持久層
+- **Spring Batch** - 批次處理功能
+- **Spring WebSocket** - 即時通訊支援
+- **Spring Mail** - 電子郵件功能
+- **Spring Web Services** - SOAP Web 服務支援
+- **Docker Compose** - 容器編排支援
 - **Swagger/OpenAPI** - API 文檔（`springdoc-openapi-starter-webmvc-ui` 版本 2.2.0）
 - **Cucumber** - 行為驅動測試
 - **Lombok** - 程式碼生成
@@ -362,7 +369,7 @@ finalfantasy/
 │   │   └── net/game/finalfantasy/domain/
 │   │       ├── model/            # 領域實體（英雄、裝備、屬性）
 │   │       └── service/          # 領域服務（工廠）
-│   └── src/test/                 # 領域測試和 Cucumber 功能
+│   └── src/test/                 # 領域測試
 ├── finalfantasy-application/     # 應用服務和用例
 │   ├── src/main/java/
 │   │   └── net/game/finalfantasy/application/
@@ -374,12 +381,19 @@ finalfantasy/
 │   │   └── net/game/finalfantasy/infrastructure/
 │   │       ├── adapter/          # Web 控制器、儲存庫
 │   │       └── config/           # 配置類別
-│   └── src/test/                 # 基礎設施測試
+│   └── src/test/                 # 基礎設施測試和 Cucumber 功能
 ├── finalfantasy-web/            # 主應用程式和 Web 配置
 │   ├── src/main/java/
 │   │   └── net/game/finalfantasy/
 │   │       └── FinalFantasyApplication.java
-│   └── src/main/resources/       # 應用程式配置檔案
+│   ├── src/main/resources/       # 應用程式配置檔案
+│   └── src/test/                 # 整合測試和 Cucumber BDD 測試
+│       └── java/net/game/finalfantasy/cucumber/
+│           ├── domain/           # 領域特定測試步驟
+│           ├── CucumberSpringConfiguration.java
+│           ├── CucumberTestRunner.java
+│           └── TestConfiguration.java
+├── compose.yaml                 # Docker Compose 配置
 └── pom.xml                      # 父 POM 配置
 ```
 

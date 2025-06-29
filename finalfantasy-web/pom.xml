@@ -64,6 +64,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Database dependencies -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Utility dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,29 +95,20 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Vert.x dependencies for integration testing -->
+        <!-- Vert.x dependencies -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-mysql-client</artifactId>
-            <scope>test</scope>
         </dependency>
 
-        <!-- Database dependencies for testing -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Spring Data dependencies for integration testing -->
         <dependency>
