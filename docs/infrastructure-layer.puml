@@ -1,6 +1,6 @@
 @startuml Infrastructure Layer
 skinparam classAttributeIconSize 0
-!theme plain
+!define RECTANGLE class
 
 package "Infrastructure Layer" {
   

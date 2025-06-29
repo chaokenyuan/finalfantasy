@@ -1,6 +1,6 @@
 @startuml Domain Model
 skinparam classAttributeIconSize 0
-!theme plain
+!define RECTANGLE class
 
 package "Domain Model" {
   package "Hero Package" {

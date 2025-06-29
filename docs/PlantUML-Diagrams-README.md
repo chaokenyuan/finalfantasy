@@ -132,6 +132,69 @@ These diagrams should be updated when:
 - Architectural patterns are modified
 - New modules or layers are introduced
 
+## 🤖 Automated Class Diagram Generation
+
+### Auto-Generated Class Diagrams
+
+In addition to the manually crafted architectural diagrams above, this project includes an automated script that generates PlantUML class diagrams for each module:
+
+#### Available Auto-Generated Diagrams
+- `finalfantasy-domain-classes.puml` - All domain classes, enums, and services
+- `finalfantasy-application-classes.puml` - Application layer classes and interfaces
+- `finalfantasy-infrastructure-classes.puml` - Infrastructure adapters and configurations
+- `finalfantasy-web-classes.puml` - Web layer entry point
+
+#### Usage
+
+To generate/update the class diagrams automatically:
+
+```bash
+# Make the script executable (first time only)
+chmod +x generate_class_diagrams.sh
+
+# Run the script to generate class diagrams
+./generate_class_diagrams.sh
+```
+
+#### What the Script Does
+
+1. **Scans each module** for Java source files
+2. **Extracts class information** including:
+   - Class/Interface/Enum declarations
+   - Private, protected, and public fields
+   - Method signatures with visibility
+3. **Generates PlantUML syntax** with proper formatting
+4. **Creates separate diagram files** for each module in the `docs/` directory
+5. **Adds timestamps** and module information
+
+#### Script Features
+
+- ✅ **Automatic discovery** of all Java files in each module
+- ✅ **Proper PlantUML formatting** with consistent styling
+- ✅ **Colored console output** for better user experience
+- ✅ **Error handling** for missing directories or files
+- ✅ **Timestamp tracking** to know when diagrams were last generated
+
+#### When to Run
+
+Run the script whenever:
+- New Java classes are added to any module
+- Existing classes are significantly modified
+- You want to refresh the auto-generated documentation
+- Before major releases or code reviews
+
+#### Differences from Manual Diagrams
+
+| Manual Diagrams | Auto-Generated Diagrams |
+|----------------|-------------------------|
+| Show architectural relationships | Show individual class structures |
+| Include cross-layer dependencies | Focus on single module content |
+| Manually curated and annotated | Automatically extracted from code |
+| Architectural patterns emphasis | Complete class member listing |
+| Design documentation focus | Code documentation focus |
+
+Both types of diagrams complement each other - use manual diagrams for understanding architecture and auto-generated ones for detailed class reference.
+
 ---
 
 *Generated for Final Fantasy Project - A demonstration of Clean Architecture with Domain-Driven Design*

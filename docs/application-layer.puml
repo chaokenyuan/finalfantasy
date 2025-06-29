@@ -1,6 +1,6 @@
 @startuml Application Layer
 skinparam classAttributeIconSize 0
-!theme plain
+!define RECTANGLE class
 
 package "Application Layer" {
   package "Ports In (Use Cases)" {
