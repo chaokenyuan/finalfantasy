@@ -10,7 +10,6 @@ import net.game.finalfantasy.domain.model.hero.HeroType;
 import net.game.finalfantasy.domain.model.stats.HeroStats;
 import net.game.finalfantasy.domain.service.EquipmentFactory;
 import net.game.finalfantasy.domain.service.HeroFactory;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class EquipmentSystemStepDefinitions {
 
     private Map<String, Hero> heroes = new HashMap<>();

@@ -8,19 +8,30 @@ import io.cucumber.java.en.And;
 import net.game.finalfantasy.domain.model.hero.Hero;
 import net.game.finalfantasy.domain.model.stats.HeroStats;
 import net.game.finalfantasy.application.SharedTestContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import net.game.finalfantasy.application.port.in.HeroManagementUseCase;
+import net.game.finalfantasy.application.port.out.HeroRepository;
+import net.game.finalfantasy.cucumber.TestConfiguration;
+import net.game.finalfantasy.domain.model.hero.HeroType;
+import io.cucumber.java.Before;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class HeroCreationStepDefinitions {
 
-    @Autowired
+    private HeroManagementUseCase heroManagementUseCase;
+    private HeroRepository heroRepository;
     private SharedTestContext sharedContext;
+
+    @Before
+    public void setUp() {
+        // Use shared instances to ensure all step definitions use the same repository
+        heroRepository = TestConfiguration.getSharedRepository();
+        heroManagementUseCase = TestConfiguration.getSharedHeroManagementUseCase();
+        sharedContext = new SharedTestContext(heroManagementUseCase, heroRepository);
+    }
 
     @Given("RPG遊戲系統已初始化")
     public void rpg遊戲系統已初始化() {

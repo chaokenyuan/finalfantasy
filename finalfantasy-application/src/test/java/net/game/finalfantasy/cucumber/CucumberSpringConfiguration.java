@@ -1,21 +1,22 @@
 package net.game.finalfantasy.cucumber;
 
 import io.cucumber.spring.CucumberContextConfiguration;
-import net.game.finalfantasy.application.config.TestApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.TestPropertySource;
 
+/**
+ * Cucumber configuration for Final Fantasy Application tests.
+ * This configuration provides Spring context for Cucumber tests.
+ */
 @CucumberContextConfiguration
-@SpringBootTest(classes = TestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@ComponentScan(basePackages = {
-        "net.game.finalfantasy.domain",
-        "net.game.finalfantasy.application",
-        "net.game.finalfantasy.infrastructure",
-        "net.game.finalfantasy.cucumber"
-})
+@SpringBootTest(classes = net.game.finalfantasy.application.config.TestApplication.class)
 @TestPropertySource(properties = {
-        "logging.level.net.game.finalfantasy=DEBUG"
+        "logging.level.net.game.finalfantasy=DEBUG",
+        "spring.main.web-application-type=none"
 })
 public class CucumberSpringConfiguration {
+
+    static {
+        System.out.println("[DEBUG_LOG] Final Fantasy Application Cucumber tests initialized with Spring Boot context");
+    }
 }

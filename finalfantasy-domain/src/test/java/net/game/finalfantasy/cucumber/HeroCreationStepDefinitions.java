@@ -9,14 +9,12 @@ import net.game.finalfantasy.domain.model.hero.Hero;
 import net.game.finalfantasy.domain.model.hero.HeroType;
 import net.game.finalfantasy.domain.model.stats.HeroStats;
 import net.game.finalfantasy.domain.service.HeroFactory;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 public class HeroCreationStepDefinitions {
 
     private Hero currentHero;

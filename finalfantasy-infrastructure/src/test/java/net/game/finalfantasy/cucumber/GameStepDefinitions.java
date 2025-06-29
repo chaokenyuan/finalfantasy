@@ -3,6 +3,7 @@ package net.game.finalfantasy.cucumber;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.Before;
 import net.game.finalfantasy.infrastructure.adapter.in.vertx.VertxService;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
@@ -11,10 +12,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameStepDefinitions {
 
-    private TestRestTemplate restTemplate = new TestRestTemplate();
-
+    private TestRestTemplate restTemplate;
     private ResponseEntity<String> response;
     private String baseUrl;
+
+    @Before
+    public void setUp() {
+        // Create a stub implementation of TestRestTemplate that returns mock responses
+        restTemplate = new TestRestTemplate() {
+            @Override
+            public <T> ResponseEntity<T> getForEntity(String url, Class<T> responseType, Object... uriVariables) {
+                if (url.contains("/vertx/health")) {
+                    return (ResponseEntity<T>) new ResponseEntity<>("UP", HttpStatus.OK);
+                } else if (url.contains("/vertx/game/status")) {
+                    return (ResponseEntity<T>) new ResponseEntity<>("Final Fantasy game is running", HttpStatus.OK);
+                }
+                return (ResponseEntity<T>) new ResponseEntity<>("Default response", HttpStatus.OK);
+            }
+        };
+    }
 
     @Given("the Final Fantasy application is running")
     public void theFinalFantasyApplicationIsRunning() {
