@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@DisplayName("Hero 測試")
 class HeroTest {
 
     private HeroStats baseStats;
@@ -128,7 +127,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("裝備新武器應該替換舊武器")
+    @DisplayName("GIVEN: 英雄已裝備武器 WHEN: 裝備新武器 THEN: 應該替換舊武器並更新屬性")
     void equipNewWeaponShouldReplaceOldWeapon() {
         // Given
         Equipment newWeapon = new Equipment("鋼劍", EquipmentSlot.WEAPON, new HeroStats(0, 8, 0, 0), 
@@ -213,7 +212,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("getAllEquipment() 應該返回所有裝備的副本")
+    @DisplayName("GIVEN: 英雄已裝備多件裝備 WHEN: 調用 getAllEquipment() THEN: 應該返回所有裝備的副本")
     void getAllEquipmentShouldReturnCopyOfAllEquipment() {
         // Given
         swordsman.equipItem(swordsmanWeapon);
@@ -230,7 +229,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("equals() 應該基於名稱和類型比較")
+    @DisplayName("GIVEN: 多個具有相同或不同屬性的英雄 WHEN: 比較英雄是否相等 THEN: 應該只基於名稱和類型進行比較")
     void equalsShouldCompareByNameAndType() {
         // Given
         Hero anotherArthur = new Hero("Arthur", HeroType.SWORDSMAN, new HeroStats(50, 10, 5, 3));
@@ -247,7 +246,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("hashCode() 應該為相等的 Hero 返回相同的值")
+    @DisplayName("GIVEN: 相同名稱和類型的英雄 WHEN: 調用 hashCode() THEN: 應該返回相同的雜湊值")
     void hashCodeShouldReturnSameValueForEqualHeroes() {
         // Given
         Hero anotherArthur = new Hero("Arthur", HeroType.SWORDSMAN, new HeroStats(50, 10, 5, 3));
@@ -257,7 +256,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("toString() 應該包含英雄的重要資訊")
+    @DisplayName("GIVEN: 具有名稱、類型和裝備的英雄 WHEN: 調用 toString() THEN: 應該包含英雄的重要資訊")
     void toStringShouldContainImportantHeroInformation() {
         // Given
         swordsman.equipItem(swordsmanWeapon);
