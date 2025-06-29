@@ -6,19 +6,19 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import lombok.RequiredArgsConstructor;
 import net.game.finalfantasy.infrastructure.config.ServerPortsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class HttpServerVerticle extends AbstractVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpServerVerticle.class);
 
-    @Autowired
-    private ServerPortsConfig serverPortsConfig;
+    private final ServerPortsConfig serverPortsConfig;
 
     @Override
     public void start(Promise<Void> startPromise) {

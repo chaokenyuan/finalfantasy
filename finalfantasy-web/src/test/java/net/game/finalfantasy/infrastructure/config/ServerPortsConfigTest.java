@@ -23,7 +23,7 @@ class ServerPortsConfigTest {
         assertNotNull(serverPortsConfig.getHttp());
         assertNotNull(serverPortsConfig.getGrpc());
         assertNotNull(serverPortsConfig.getVertx());
-        
+
         // Test default values from local profile (which is active by default)
         assertEquals(8080, serverPortsConfig.getHttp().getPort());
         assertEquals(9090, serverPortsConfig.getGrpc().getPort());
@@ -46,7 +46,7 @@ class ServerPortsConfigSitTest {
     @Test
     void testSitConfiguration() {
         assertNotNull(serverPortsConfig);
-        
+
         // Test SIT environment values
         assertEquals(8180, serverPortsConfig.getHttp().getPort());
         assertEquals(9190, serverPortsConfig.getGrpc().getPort());
@@ -69,7 +69,7 @@ class ServerPortsConfigUatTest {
     @Test
     void testUatConfiguration() {
         assertNotNull(serverPortsConfig);
-        
+
         // Test UAT environment values
         assertEquals(8280, serverPortsConfig.getHttp().getPort());
         assertEquals(9290, serverPortsConfig.getGrpc().getPort());
@@ -92,7 +92,7 @@ class ServerPortsConfigProdTest {
     @Test
     void testProdConfiguration() {
         assertNotNull(serverPortsConfig);
-        
+
         // Test Production environment values
         assertEquals(8080, serverPortsConfig.getHttp().getPort());
         assertEquals(9090, serverPortsConfig.getGrpc().getPort());

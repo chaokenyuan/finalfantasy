@@ -5,19 +5,19 @@ import io.vertx.core.Promise;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetSocket;
 import io.vertx.core.json.JsonObject;
+import lombok.RequiredArgsConstructor;
 import net.game.finalfantasy.infrastructure.config.ServerPortsConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class SocketServerVerticle extends AbstractVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(SocketServerVerticle.class);
 
-    @Autowired
-    private ServerPortsConfig serverPortsConfig;
+    private final ServerPortsConfig serverPortsConfig;
 
     @Override
     public void start(Promise<Void> startPromise) {
