@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {
-                "net.game.finalfantasy.cucumber.steps",
+                "net.game.finalfantasy.cucumber.domain",
                 "net.game.finalfantasy.cucumber"
         },
         plugin = {
