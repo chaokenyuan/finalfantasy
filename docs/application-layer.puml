@@ -1,0 +1,122 @@
+@startuml Application Layer
+skinparam classAttributeIconSize 0
+!theme plain
+
+package "Application Layer" {
+  package "Ports In (Use Cases)" {
+    interface HeroManagementUseCase {
+      +createHero(String name, String heroType): Hero
+      +createHero(String name, HeroType heroType): Hero
+      +getHero(String name): Hero
+      +equipItem(String heroName, String equipmentName): void
+      +unequipItem(String heroName, String equipmentSlot): void
+      +heroExists(String name): boolean
+    }
+    
+    note right of HeroManagementUseCase : "Primary port\nDefines application use cases\nDriven by external actors"
+  }
+  
+  package "Ports Out (Secondary Ports)" {
+    interface HeroRepository {
+      +save(Hero hero): Hero
+      +findByName(String name): Optional<Hero>
+      +findAll(): List<Hero>
+      +delete(String name): void
+      +deleteAll(): void
+      +existsByName(String name): boolean
+    }
+    
+    note right of HeroRepository : "Secondary port\nAbstraction for persistence\nImplemented by infrastructure"
+  }
+  
+  package "Application Services" {
+    class HeroManagementService {
+      -heroRepository: HeroRepository
+      
+      +HeroManagementService(HeroRepository)
+      +createHero(String name, String heroType): Hero
+      +createHero(String name, HeroType heroType): Hero
+      +getHero(String name): Hero
+      +equipItem(String heroName, String equipmentName): void
+      +unequipItem(String heroName, String equipmentSlot): void
+      +heroExists(String name): boolean
+    }
+    
+    note right of HeroManagementService : "Application service\nOrchestrates domain objects\nImplements use cases"
+  }
+}
+
+package "Domain Layer (Referenced)" {
+  class Hero {
+    +getName(): String
+    +equipItem(Equipment): void
+    +unequipItem(EquipmentSlot): void
+  }
+  
+  enum HeroType {
+    SWORDSMAN
+    MAGE
+  }
+  
+  enum EquipmentSlot {
+    WEAPON
+    HELMET
+    SHIELD
+  }
+  
+  class Equipment {
+    +getName(): String
+  }
+  
+  class HeroFactory {
+    +createHero(String, String): Hero {static}
+    +createHero(String, HeroType): Hero {static}
+  }
+  
+  class EquipmentFactory {
+    +createEquipment(String): Equipment {static}
+  }
+}
+
+' Relationships within Application Layer
+HeroManagementService ..|> HeroManagementUseCase : implements
+HeroManagementService --> HeroRepository : depends on
+
+' Relationships to Domain Layer
+HeroManagementService --> Hero : uses
+HeroManagementService --> HeroType : uses
+HeroManagementService --> EquipmentSlot : uses
+HeroManagementService --> HeroFactory : uses
+HeroManagementService --> EquipmentFactory : uses
+
+HeroManagementUseCase --> Hero : returns
+HeroManagementUseCase --> HeroType : uses
+HeroRepository --> Hero : persists
+
+' Annotations
+note as N1
+  **Hexagonal Architecture Pattern**
+  
+  - **Primary Ports (Driving)**: HeroManagementUseCase
+    Defines what the application can do
+    
+  - **Secondary Ports (Driven)**: HeroRepository
+    Defines what the application needs
+    
+  - **Application Service**: HeroManagementService
+    Orchestrates domain logic
+    Implements use cases
+    Depends only on abstractions
+end note
+
+note as N2
+  **Dependency Direction**
+  
+  Infrastructure → Application → Domain
+  
+  - Application depends on Domain
+  - Infrastructure depends on Application
+  - Domain has no dependencies
+end note
+
+@enduml

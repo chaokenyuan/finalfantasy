@@ -1,0 +1,249 @@
+@startuml Overall Architecture
+skinparam classAttributeIconSize 0
+!define RECTANGLE class
+
+package "Web Layer" {
+  class FinalFantasyApplication {
+    +main(String[] args)
+  }
+}
+
+package "Infrastructure Layer" {
+  package "Web Controllers" {
+    class HeroController {
+      -heroManagementUseCase: HeroManagementUseCase
+      +createHero(CreateHeroRequest): ResponseEntity<HeroResponse>
+      +getHero(String): ResponseEntity<HeroResponse>
+      +equipItem(String, EquipItemRequest): ResponseEntity<Void>
+      +unequipItem(String, String): ResponseEntity<Void>
+    }
+    
+    class GameController {
+      +health(): ResponseEntity<String>
+    }
+  }
+  
+  package "DTOs" {
+    class CreateHeroRequest {
+      +name: String
+      +heroType: String
+    }
+    
+    class EquipItemRequest {
+      +equipmentName: String
+    }
+    
+    class HeroResponse {
+      +name: String
+      +heroType: String
+      +baseStats: HeroStatsDto
+      +currentStats: HeroStatsDto
+      +equipment: Map<String, EquipmentDto>
+    }
+    
+    class HeroStatsDto {
+      +hp: int
+      +atk: int
+      +def: int
+      +spAtk: int
+    }
+    
+    class EquipmentDto {
+      +name: String
+      +slot: String
+      +statBonus: HeroStatsDto
+      +allowedHeroTypes: Set<String>
+    }
+  }
+  
+  package "Persistence" {
+    class InMemoryHeroRepository {
+      -heroes: Map<String, Hero>
+      +save(Hero): Hero
+      +findByName(String): Optional<Hero>
+      +findAll(): List<Hero>
+      +delete(String): void
+      +deleteAll(): void
+      +existsByName(String): boolean
+    }
+  }
+  
+  package "Vertx" {
+    class HttpServerVerticle {
+      +start(): void
+    }
+    
+    class SocketServerVerticle {
+      +start(): void
+    }
+    
+    class VertxService {
+      +startVertx(): void
+    }
+  }
+  
+  package "Configuration" {
+    class ServerPortsConfig {
+      +http: Http
+      +grpc: Grpc
+      +vertx: Vertx
+    }
+    
+    class SwaggerConfig {
+      +openAPI(): OpenAPI
+    }
+    
+    class VertxConfig {
+      +vertx(): Vertx
+    }
+  }
+}
+
+package "Application Layer" {
+  package "Ports In" {
+    interface HeroManagementUseCase {
+      +createHero(String, String): Hero
+      +createHero(String, HeroType): Hero
+      +getHero(String): Hero
+      +equipItem(String, String): void
+      +unequipItem(String, String): void
+      +heroExists(String): boolean
+    }
+  }
+  
+  package "Ports Out" {
+    interface HeroRepository {
+      +save(Hero): Hero
+      +findByName(String): Optional<Hero>
+      +findAll(): List<Hero>
+      +delete(String): void
+      +deleteAll(): void
+      +existsByName(String): boolean
+    }
+  }
+  
+  package "Services" {
+    class HeroManagementService {
+      -heroRepository: HeroRepository
+      +createHero(String, String): Hero
+      +createHero(String, HeroType): Hero
+      +getHero(String): Hero
+      +equipItem(String, String): void
+      +unequipItem(String, String): void
+      +heroExists(String): boolean
+    }
+  }
+}
+
+package "Domain Layer" {
+  package "Model" {
+    package "Hero" {
+      class Hero {
+        -name: String
+        -type: HeroType
+        -baseStats: HeroStats
+        -equipment: Map<EquipmentSlot, Equipment>
+        +getName(): String
+        +getType(): HeroType
+        +getBaseStats(): HeroStats
+        +getCurrentStats(): HeroStats
+        +equipItem(Equipment): void
+        +unequipItem(EquipmentSlot): void
+        +getEquippedItem(EquipmentSlot): Equipment
+        +getAllEquipment(): Map<EquipmentSlot, Equipment>
+      }
+      
+      enum HeroType {
+        SWORDSMAN("劍士")
+        MAGE("法師")
+        -chineseName: String
+        +getChineseName(): String
+        +fromChineseName(String): HeroType
+      }
+      
+      enum EquipmentSlot {
+        WEAPON("武器")
+        HELMET("頭盔")
+        SHIELD("盾牌")
+        -chineseName: String
+        +getChineseName(): String
+        +fromChineseName(String): EquipmentSlot
+      }
+    }
+    
+    package "Equipment" {
+      class Equipment {
+        -name: String
+        -slot: EquipmentSlot
+        -statBonus: HeroStats
+        -allowedHeroTypes: Set<HeroType>
+        +getName(): String
+        +getSlot(): EquipmentSlot
+        +getStatBonus(): HeroStats
+        +getAllowedHeroTypes(): Set<HeroType>
+        +canBeEquippedBy(HeroType): boolean
+      }
+    }
+    
+    package "Stats" {
+      class HeroStats {
+        -hp: int
+        -atk: int
+        -def: int
+        -spAtk: int
+        +getHp(): int
+        +getAtk(): int
+        +getDef(): int
+        +getSpAtk(): int
+        +copy(): HeroStats
+        +add(HeroStats): HeroStats
+        +ensureNonNegative(): HeroStats
+        +withHp(int): HeroStats
+        +withAtk(int): HeroStats
+        +withDef(int): HeroStats
+        +withSpAtk(int): HeroStats
+      }
+    }
+  }
+  
+  package "Services" {
+    class HeroFactory {
+      +createHero(String, String): Hero
+      +createHero(String, HeroType): Hero
+    }
+    
+    class EquipmentFactory {
+      +createEquipment(String): Equipment
+    }
+  }
+}
+
+' Relationships
+FinalFantasyApplication --> HeroController
+HeroController --> HeroManagementUseCase
+HeroController --> CreateHeroRequest
+HeroController --> EquipItemRequest
+HeroController --> HeroResponse
+
+HeroManagementService ..|> HeroManagementUseCase
+HeroManagementService --> HeroRepository
+HeroManagementService --> Hero
+HeroManagementService --> HeroFactory
+HeroManagementService --> EquipmentFactory
+
+InMemoryHeroRepository ..|> HeroRepository
+InMemoryHeroRepository --> Hero
+
+Hero --> HeroType
+Hero --> HeroStats
+Hero --> Equipment
+Hero --> EquipmentSlot
+
+Equipment --> EquipmentSlot
+Equipment --> HeroType
+Equipment --> HeroStats
+
+HeroResponse --> HeroStatsDto
+HeroResponse --> EquipmentDto
+
+@enduml

@@ -1,0 +1,237 @@
+@startuml Infrastructure Layer
+skinparam classAttributeIconSize 0
+!theme plain
+
+package "Infrastructure Layer" {
+  
+  package "Web Adapters (Primary Adapters)" {
+    class HeroController {
+      -heroManagementUseCase: HeroManagementUseCase
+      
+      +HeroController(HeroManagementUseCase)
+      +createHero(CreateHeroRequest): ResponseEntity<HeroResponse>
+      +getHero(String heroName): ResponseEntity<HeroResponse>
+      +equipItem(String heroName, EquipItemRequest): ResponseEntity<Void>
+      +unequipItem(String heroName, String equipmentSlot): ResponseEntity<Void>
+    }
+    
+    class GameController {
+      +health(): ResponseEntity<String>
+    }
+    
+    note right of HeroController : "Primary adapter\nTranslates HTTP requests\nto use case calls"
+  }
+  
+  package "DTOs (Data Transfer Objects)" {
+    class CreateHeroRequest {
+      +name: String
+      +heroType: String
+      
+      +getName(): String
+      +getHeroType(): String
+      +setName(String): void
+      +setHeroType(String): void
+    }
+    
+    class EquipItemRequest {
+      +equipmentName: String
+      
+      +getEquipmentName(): String
+      +setEquipmentName(String): void
+    }
+    
+    class HeroResponse {
+      +name: String
+      +heroType: String
+      +baseStats: HeroStatsDto
+      +currentStats: HeroStatsDto
+      +equipment: Map<String, EquipmentDto>
+      
+      +fromHero(Hero): HeroResponse {static}
+      +getName(): String
+      +getHeroType(): String
+      +getBaseStats(): HeroStatsDto
+      +getCurrentStats(): HeroStatsDto
+      +getEquipment(): Map<String, EquipmentDto>
+    }
+    
+    class HeroStatsDto {
+      +hp: int
+      +atk: int
+      +def: int
+      +spAtk: int
+      
+      +fromHeroStats(HeroStats): HeroStatsDto {static}
+      +getHp(): int
+      +getAtk(): int
+      +getDef(): int
+      +getSpAtk(): int
+    }
+    
+    class EquipmentDto {
+      +name: String
+      +slot: String
+      +statBonus: HeroStatsDto
+      +allowedHeroTypes: Set<String>
+      
+      +fromEquipment(Equipment): EquipmentDto {static}
+      +getName(): String
+      +getSlot(): String
+      +getStatBonus(): HeroStatsDto
+      +getAllowedHeroTypes(): Set<String>
+    }
+    
+    note right of HeroResponse : "Response DTOs\nTranslate domain objects\nto JSON representations"
+  }
+  
+  package "Persistence Adapters (Secondary Adapters)" {
+    class InMemoryHeroRepository {
+      -heroes: Map<String, Hero>
+      
+      +InMemoryHeroRepository()
+      +save(Hero hero): Hero
+      +findByName(String name): Optional<Hero>
+      +findAll(): List<Hero>
+      +delete(String name): void
+      +deleteAll(): void
+      +existsByName(String name): boolean
+    }
+    
+    note right of InMemoryHeroRepository : "Secondary adapter\nImplements HeroRepository\nIn-memory storage"
+  }
+  
+  package "Vertx Adapters" {
+    class HttpServerVerticle {
+      -serverPortsConfig: ServerPortsConfig
+      
+      +start(): void
+      +stop(): void
+    }
+    
+    class SocketServerVerticle {
+      -serverPortsConfig: ServerPortsConfig
+      
+      +start(): void
+      +stop(): void
+    }
+    
+    class VertxService {
+      -vertx: Vertx
+      -httpServerVerticle: HttpServerVerticle
+      -socketServerVerticle: SocketServerVerticle
+      
+      +startVertx(): void
+      +stopVertx(): void
+    }
+    
+    note right of VertxService : "Alternative web framework\nEvent-driven architecture\nNon-blocking I/O"
+  }
+  
+  package "Configuration" {
+    class ServerPortsConfig {
+      +http: Http
+      +grpc: Grpc
+      +vertx: Vertx
+      
+      +getHttp(): Http
+      +getGrpc(): Grpc
+      +getVertx(): Vertx
+    }
+    
+    class "ServerPortsConfig.Http" as Http {
+      +port: int
+      +getPort(): int
+    }
+    
+    class "ServerPortsConfig.Grpc" as Grpc {
+      +port: int
+      +getPort(): int
+    }
+    
+    class "ServerPortsConfig.Vertx" as VertxConfig {
+      +httpPort: int
+      +socketPort: int
+      +getHttpPort(): int
+      +getSocketPort(): int
+    }
+    
+    class SwaggerConfig {
+      +openAPI(): OpenAPI
+    }
+    
+    class VertxBeanConfig {
+      +vertx(): Vertx
+    }
+    
+    note right of ServerPortsConfig : "Configuration classes\nExternalize settings\nSpring Boot properties"
+  }
+}
+
+package "Application Layer (Referenced)" {
+  interface HeroManagementUseCase {
+    +createHero(String, String): Hero
+    +getHero(String): Hero
+    +equipItem(String, String): void
+    +unequipItem(String, String): void
+    +heroExists(String): boolean
+  }
+  
+  interface HeroRepository {
+    +save(Hero): Hero
+    +findByName(String): Optional<Hero>
+    +existsByName(String): boolean
+  }
+}
+
+package "Domain Layer (Referenced)" {
+  class Hero
+  class Equipment
+  class HeroStats
+}
+
+' Relationships - Web Layer
+HeroController --> HeroManagementUseCase : uses
+HeroController --> CreateHeroRequest : receives
+HeroController --> EquipItemRequest : receives
+HeroController --> HeroResponse : returns
+
+' Relationships - DTOs
+HeroResponse --> HeroStatsDto : contains
+HeroResponse --> EquipmentDto : contains
+HeroResponse --> Hero : converts from
+HeroStatsDto --> HeroStats : converts from
+EquipmentDto --> Equipment : converts from
+
+' Relationships - Persistence
+InMemoryHeroRepository ..|> HeroRepository : implements
+InMemoryHeroRepository --> Hero : stores
+
+' Relationships - Vertx
+VertxService --> HttpServerVerticle : manages
+VertxService --> SocketServerVerticle : manages
+HttpServerVerticle --> ServerPortsConfig : uses
+SocketServerVerticle --> ServerPortsConfig : uses
+
+' Relationships - Configuration
+ServerPortsConfig --> Http : contains
+ServerPortsConfig --> Grpc : contains
+ServerPortsConfig --> VertxConfig : contains
+
+' Adapter Pattern Annotations
+note as AdapterNote
+  **Adapter Pattern Implementation**
+  
+  **Primary Adapters (Driving):**
+  - HeroController: HTTP → Use Cases
+  - Vertx Verticles: Event-driven → Use Cases
+  
+  **Secondary Adapters (Driven):**
+  - InMemoryHeroRepository: Use Cases → Storage
+  
+  **Translation Responsibilities:**
+  - Controllers: HTTP ↔ Domain
+  - DTOs: JSON ↔ Domain Objects
+  - Repository: Domain ↔ Storage
+end note
+
+@enduml

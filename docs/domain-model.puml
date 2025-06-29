@@ -1,0 +1,134 @@
+@startuml Domain Model
+skinparam classAttributeIconSize 0
+!theme plain
+
+package "Domain Model" {
+  package "Hero Package" {
+    class Hero {
+      -name: String
+      -type: HeroType
+      -baseStats: HeroStats
+      -equipment: Map<EquipmentSlot, Equipment>
+      
+      +Hero(String, HeroType, HeroStats)
+      +getName(): String
+      +getType(): HeroType
+      +getBaseStats(): HeroStats
+      +getCurrentStats(): HeroStats
+      +equipItem(Equipment): void
+      +unequipItem(EquipmentSlot): void
+      +getEquippedItem(EquipmentSlot): Equipment
+      +getAllEquipment(): Map<EquipmentSlot, Equipment>
+      +equals(Object): boolean
+      +hashCode(): int
+      +toString(): String
+    }
+    
+    enum HeroType {
+      SWORDSMAN("劍士")
+      MAGE("法師")
+      
+      -chineseName: String
+      
+      +HeroType(String)
+      +getChineseName(): String
+      +fromChineseName(String): HeroType {static}
+      +toString(): String
+    }
+    
+    enum EquipmentSlot {
+      WEAPON("武器")
+      HELMET("頭盔")
+      SHIELD("盾牌")
+      
+      -chineseName: String
+      
+      +EquipmentSlot(String)
+      +getChineseName(): String
+      +fromChineseName(String): EquipmentSlot {static}
+      +toString(): String
+    }
+  }
+  
+  package "Equipment Package" {
+    class Equipment {
+      -name: String
+      -slot: EquipmentSlot
+      -statBonus: HeroStats
+      -allowedHeroTypes: Set<HeroType>
+      
+      +Equipment(String, EquipmentSlot, HeroStats, Set<HeroType>)
+      +getName(): String
+      +getSlot(): EquipmentSlot
+      +getStatBonus(): HeroStats
+      +getAllowedHeroTypes(): Set<HeroType>
+      +canBeEquippedBy(HeroType): boolean
+      +equals(Object): boolean
+      +hashCode(): int
+      +toString(): String
+    }
+  }
+  
+  package "Stats Package" {
+    class HeroStats {
+      -hp: int
+      -atk: int
+      -def: int
+      -spAtk: int
+      
+      +HeroStats(int, int, int, int)
+      +getHp(): int
+      +getAtk(): int
+      +getDef(): int
+      +getSpAtk(): int
+      +copy(): HeroStats
+      +add(HeroStats): HeroStats
+      +ensureNonNegative(): HeroStats
+      +withHp(int): HeroStats
+      +withAtk(int): HeroStats
+      +withDef(int): HeroStats
+      +withSpAtk(int): HeroStats
+      +equals(Object): boolean
+      +hashCode(): int
+      +toString(): String
+    }
+  }
+  
+  package "Domain Services" {
+    class HeroFactory {
+      +createHero(String, String): Hero {static}
+      +createHero(String, HeroType): Hero {static}
+    }
+    
+    class EquipmentFactory {
+      +createEquipment(String): Equipment {static}
+    }
+  }
+}
+
+' Relationships
+Hero ||--|| HeroType : has
+Hero ||--|| HeroStats : "has baseStats"
+Hero ||--o{ Equipment : "can equip"
+Hero ||--o{ EquipmentSlot : "uses slots"
+
+Equipment ||--|| EquipmentSlot : "belongs to"
+Equipment ||--|| HeroStats : "provides bonus"
+Equipment ||--o{ HeroType : "restricted to"
+
+HeroFactory ..> Hero : creates
+HeroFactory ..> HeroType : uses
+HeroFactory ..> HeroStats : creates
+
+EquipmentFactory ..> Equipment : creates
+EquipmentFactory ..> EquipmentSlot : uses
+EquipmentFactory ..> HeroStats : creates
+EquipmentFactory ..> HeroType : uses
+
+note right of Hero : "Core aggregate root\nManages equipment and stats"
+note right of Equipment : "Value object\nImmutable equipment definition"
+note right of HeroStats : "Value object\nImmutable stats with operations"
+note right of HeroFactory : "Factory for creating heroes\nwith proper initial stats"
+note right of EquipmentFactory : "Factory for creating equipment\nwith predefined configurations"
+
+@enduml
