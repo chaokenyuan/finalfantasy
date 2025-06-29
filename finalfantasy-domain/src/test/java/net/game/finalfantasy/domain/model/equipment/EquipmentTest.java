@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Set;
 import java.util.HashSet;
 
-@DisplayName("Equipment 測試")
 class EquipmentTest {
 
     private HeroStats statBonus;
