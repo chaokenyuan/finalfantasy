@@ -1,0 +1,37 @@
+# UAT (User Acceptance Test) environment configuration
+finalfantasy:
+  server:
+    http:
+      port: 8280
+    grpc:
+      port: 9290
+      enabled: true
+    vertx:
+      http-port: 8281
+      socket-port: 8282
+
+# Spring Boot server port
+server:
+  port: 8280
+
+# gRPC server configuration
+grpc:
+  server:
+    port: 9290
+    enabled: true
+
+# UAT specific configurations
+spring:
+  h2:
+    console:
+      enabled: false
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+logging:
+  level:
+    net.game.finalfantasy: INFO
+    io.grpc: WARN
+    root: WARN
