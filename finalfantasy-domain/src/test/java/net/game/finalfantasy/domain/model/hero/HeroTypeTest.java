@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HeroTypeTest {
 
     @Test
-    @DisplayName("應該有正確的英雄類型")
+    @DisplayName("GIVEN: HeroType 枚舉 WHEN: 檢查類型數量和存在性 THEN: 應該有正確的英雄類型")
     void shouldHaveCorrectHeroTypes() {
         // Then
         assertEquals(2, HeroType.values().length);
@@ -17,21 +17,21 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("SWORDSMAN 應該有正確的中文名稱")
+    @DisplayName("GIVEN: SWORDSMAN 類型 WHEN: 調用 getChineseName() THEN: 應該返回正確的中文名稱")
     void swordsmanShouldHaveCorrectChineseName() {
         // Then
         assertEquals("劍士", HeroType.SWORDSMAN.getChineseName());
     }
 
     @Test
-    @DisplayName("MAGE 應該有正確的中文名稱")
+    @DisplayName("GIVEN: MAGE 類型 WHEN: 調用 getChineseName() THEN: 應該返回正確的中文名稱")
     void mageShouldHaveCorrectChineseName() {
         // Then
         assertEquals("法師", HeroType.MAGE.getChineseName());
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該正確轉換劍士")
+    @DisplayName("GIVEN: 劍士中文名稱 WHEN: 調用 fromChineseName() THEN: 應該正確轉換為 SWORDSMAN")
     void fromChineseNameShouldCorrectlyConvertSwordsman() {
         // When
         HeroType result = HeroType.fromChineseName("劍士");
@@ -41,7 +41,7 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該正確轉換法師")
+    @DisplayName("GIVEN: 法師中文名稱 WHEN: 調用 fromChineseName() THEN: 應該正確轉換為 MAGE")
     void fromChineseNameShouldCorrectlyConvertMage() {
         // When
         HeroType result = HeroType.fromChineseName("法師");
@@ -51,19 +51,19 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於未知的中文名稱")
+    @DisplayName("GIVEN: 未知的中文名稱 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldThrowExceptionForUnknownName() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             HeroType.fromChineseName("戰士");
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown hero type"));
         assertTrue(exception.getMessage().contains("戰士"));
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於 null 輸入")
+    @DisplayName("GIVEN: null 輸入 WHEN: 調用 fromChineseName() THEN: 應該拋出 NullPointerException")
     void fromChineseNameShouldThrowExceptionForNullInput() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -72,29 +72,29 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於空字串")
+    @DisplayName("GIVEN: 空字串輸入 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldThrowExceptionForEmptyString() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             HeroType.fromChineseName("");
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown hero type"));
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該區分大小寫")
+    @DisplayName("GIVEN: 包含空格的中文名稱 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldBeCaseSensitive() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             HeroType.fromChineseName("劍士 "); // 有空格
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown hero type"));
     }
 
     @Test
-    @DisplayName("toString() 應該返回中文名稱")
+    @DisplayName("GIVEN: HeroType 實例 WHEN: 調用 toString() THEN: 應該返回中文名稱")
     void toStringShouldReturnChineseName() {
         // Then
         assertEquals("劍士", HeroType.SWORDSMAN.toString());
@@ -102,7 +102,7 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("應該能夠正確比較 HeroType")
+    @DisplayName("GIVEN: 不同的 HeroType 實例 WHEN: 進行比較 THEN: 應該正確比較相等性")
     void shouldCorrectlyCompareHeroTypes() {
         // Then
         assertEquals(HeroType.SWORDSMAN, HeroType.SWORDSMAN);
@@ -112,7 +112,7 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("應該能夠在 switch 語句中使用")
+    @DisplayName("GIVEN: HeroType 實例 WHEN: 在 switch 語句中使用 THEN: 應該正確執行分支邏輯")
     void shouldBeUsableInSwitchStatement() {
         // Given
         HeroType swordsman = HeroType.SWORDSMAN;
@@ -123,7 +123,7 @@ class HeroTypeTest {
             case SWORDSMAN -> "近戰職業";
             case MAGE -> "魔法職業";
         };
-        
+
         String mageResult = switch (mage) {
             case SWORDSMAN -> "近戰職業";
             case MAGE -> "魔法職業";
@@ -134,11 +134,11 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("應該能夠遍歷所有 HeroType 值")
+    @DisplayName("GIVEN: HeroType 枚舉 WHEN: 遍歷所有值 THEN: 應該能夠遍歷所有 HeroType 值")
     void shouldBeAbleToIterateAllHeroTypeValues() {
         // Given
         int count = 0;
-        
+
         // When
         for (HeroType type : HeroType.values()) {
             count++;
@@ -152,7 +152,7 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("中文名稱應該是唯一的")
+    @DisplayName("GIVEN: 所有 HeroType 值 WHEN: 檢查中文名稱 THEN: 中文名稱應該是唯一的")
     void chineseNamesShouldBeUnique() {
         // Given
         String swordsmanName = HeroType.SWORDSMAN.getChineseName();
@@ -163,7 +163,7 @@ class HeroTypeTest {
     }
 
     @Test
-    @DisplayName("應該能夠進行往返轉換")
+    @DisplayName("GIVEN: HeroType 實例 WHEN: 進行往返轉換 THEN: 應該能夠正確往返轉換")
     void shouldBeAbleToDoRoundTripConversion() {
         // Given
         HeroType originalSwordsman = HeroType.SWORDSMAN;

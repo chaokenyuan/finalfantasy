@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EquipmentSlotTest {
 
     @Test
-    @DisplayName("應該有正確的裝備槽位")
+    @DisplayName("GIVEN: EquipmentSlot 枚舉 WHEN: 檢查槽位數量和存在性 THEN: 應該有正確的裝備槽位")
     void shouldHaveCorrectEquipmentSlots() {
         // Then
         assertEquals(3, EquipmentSlot.values().length);
@@ -18,28 +18,28 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("WEAPON 應該有正確的中文名稱")
+    @DisplayName("GIVEN: WEAPON 槽位 WHEN: 調用 getChineseName() THEN: 應該返回正確的中文名稱")
     void weaponShouldHaveCorrectChineseName() {
         // Then
         assertEquals("武器", EquipmentSlot.WEAPON.getChineseName());
     }
 
     @Test
-    @DisplayName("HELMET 應該有正確的中文名稱")
+    @DisplayName("GIVEN: HELMET 槽位 WHEN: 調用 getChineseName() THEN: 應該返回正確的中文名稱")
     void helmetShouldHaveCorrectChineseName() {
         // Then
         assertEquals("頭盔", EquipmentSlot.HELMET.getChineseName());
     }
 
     @Test
-    @DisplayName("SHIELD 應該有正確的中文名稱")
+    @DisplayName("GIVEN: SHIELD 槽位 WHEN: 調用 getChineseName() THEN: 應該返回正確的中文名稱")
     void shieldShouldHaveCorrectChineseName() {
         // Then
         assertEquals("盾牌", EquipmentSlot.SHIELD.getChineseName());
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該正確轉換武器")
+    @DisplayName("GIVEN: 武器中文名稱 WHEN: 調用 fromChineseName() THEN: 應該正確轉換為 WEAPON")
     void fromChineseNameShouldCorrectlyConvertWeapon() {
         // When
         EquipmentSlot result = EquipmentSlot.fromChineseName("武器");
@@ -49,7 +49,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該正確轉換頭盔")
+    @DisplayName("GIVEN: 頭盔中文名稱 WHEN: 調用 fromChineseName() THEN: 應該正確轉換為 HELMET")
     void fromChineseNameShouldCorrectlyConvertHelmet() {
         // When
         EquipmentSlot result = EquipmentSlot.fromChineseName("頭盔");
@@ -59,7 +59,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該正確轉換盾牌")
+    @DisplayName("GIVEN: 盾牌中文名稱 WHEN: 調用 fromChineseName() THEN: 應該正確轉換為 SHIELD")
     void fromChineseNameShouldCorrectlyConvertShield() {
         // When
         EquipmentSlot result = EquipmentSlot.fromChineseName("盾牌");
@@ -69,19 +69,19 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於未知的中文名稱")
+    @DisplayName("GIVEN: 未知的中文名稱 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldThrowExceptionForUnknownName() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             EquipmentSlot.fromChineseName("護甲");
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown equipment slot"));
         assertTrue(exception.getMessage().contains("護甲"));
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於 null 輸入")
+    @DisplayName("GIVEN: null 輸入 WHEN: 調用 fromChineseName() THEN: 應該拋出 NullPointerException")
     void fromChineseNameShouldThrowExceptionForNullInput() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -90,29 +90,29 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該拋出異常對於空字串")
+    @DisplayName("GIVEN: 空字串輸入 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldThrowExceptionForEmptyString() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             EquipmentSlot.fromChineseName("");
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown equipment slot"));
     }
 
     @Test
-    @DisplayName("fromChineseName() 應該區分大小寫")
+    @DisplayName("GIVEN: 包含空格的中文名稱 WHEN: 調用 fromChineseName() THEN: 應該拋出 IllegalArgumentException")
     void fromChineseNameShouldBeCaseSensitive() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             EquipmentSlot.fromChineseName("武器 "); // 有空格
         });
-        
+
         assertTrue(exception.getMessage().contains("Unknown equipment slot"));
     }
 
     @Test
-    @DisplayName("toString() 應該返回中文名稱")
+    @DisplayName("GIVEN: EquipmentSlot 實例 WHEN: 調用 toString() THEN: 應該返回中文名稱")
     void toStringShouldReturnChineseName() {
         // Then
         assertEquals("武器", EquipmentSlot.WEAPON.toString());
@@ -121,7 +121,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("應該能夠正確比較 EquipmentSlot")
+    @DisplayName("GIVEN: 不同的 EquipmentSlot 實例 WHEN: 進行比較 THEN: 應該正確比較相等性")
     void shouldCorrectlyCompareEquipmentSlots() {
         // Then
         assertEquals(EquipmentSlot.WEAPON, EquipmentSlot.WEAPON);
@@ -133,7 +133,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("應該能夠在 switch 語句中使用")
+    @DisplayName("GIVEN: EquipmentSlot 實例 WHEN: 在 switch 語句中使用 THEN: 應該正確執行分支邏輯")
     void shouldBeUsableInSwitchStatement() {
         // Given
         EquipmentSlot weapon = EquipmentSlot.WEAPON;
@@ -146,13 +146,13 @@ class EquipmentSlotTest {
             case HELMET -> "防護裝備";
             case SHIELD -> "防禦裝備";
         };
-        
+
         String helmetResult = switch (helmet) {
             case WEAPON -> "攻擊裝備";
             case HELMET -> "防護裝備";
             case SHIELD -> "防禦裝備";
         };
-        
+
         String shieldResult = switch (shield) {
             case WEAPON -> "攻擊裝備";
             case HELMET -> "防護裝備";
@@ -165,11 +165,11 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("應該能夠遍歷所有 EquipmentSlot 值")
+    @DisplayName("GIVEN: EquipmentSlot 枚舉 WHEN: 遍歷所有值 THEN: 應該能夠遍歷所有 EquipmentSlot 值")
     void shouldBeAbleToIterateAllEquipmentSlotValues() {
         // Given
         int count = 0;
-        
+
         // When
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             count++;
@@ -183,7 +183,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("中文名稱應該是唯一的")
+    @DisplayName("GIVEN: 所有 EquipmentSlot 值 WHEN: 檢查中文名稱 THEN: 中文名稱應該是唯一的")
     void chineseNamesShouldBeUnique() {
         // Given
         String weaponName = EquipmentSlot.WEAPON.getChineseName();
@@ -197,7 +197,7 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("應該能夠進行往返轉換")
+    @DisplayName("GIVEN: EquipmentSlot 實例 WHEN: 進行往返轉換 THEN: 應該能夠正確往返轉換")
     void shouldBeAbleToDoRoundTripConversion() {
         // Given
         EquipmentSlot originalWeapon = EquipmentSlot.WEAPON;
@@ -216,11 +216,11 @@ class EquipmentSlotTest {
     }
 
     @Test
-    @DisplayName("應該能夠用作 Map 的鍵")
+    @DisplayName("GIVEN: EquipmentSlot 實例 WHEN: 用作 Map 的鍵 THEN: 應該能夠正常作為 Map 鍵使用")
     void shouldBeUsableAsMapKey() {
         // Given
         java.util.Map<EquipmentSlot, String> slotMap = new java.util.HashMap<>();
-        
+
         // When
         slotMap.put(EquipmentSlot.WEAPON, "劍");
         slotMap.put(EquipmentSlot.HELMET, "頭盔");

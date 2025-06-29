@@ -43,7 +43,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建具有正確屬性的 Hero")
+    @DisplayName("GIVEN: 提供有效的英雄參數 WHEN: 創建 Hero THEN: 應該正確設置所有屬性")
     void shouldCreateHeroWithCorrectAttributes() {
         // Then
         assertEquals("Arthur", swordsman.getName());
@@ -53,7 +53,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 名稱")
+    @DisplayName("GIVEN: null 名稱參數 WHEN: 創建 Hero THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullName() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -62,7 +62,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 英雄類型")
+    @DisplayName("GIVEN: null 英雄類型參數 WHEN: 創建 Hero THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullHeroType() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -71,7 +71,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 基礎屬性")
+    @DisplayName("GIVEN: null 基礎屬性參數 WHEN: 創建 Hero THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullBaseStats() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -80,7 +80,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該能夠裝備相容的裝備")
+    @DisplayName("GIVEN: 相容的裝備 WHEN: 調用 equipItem() THEN: 應該成功裝備並更新屬性")
     void shouldEquipCompatibleEquipment() {
         // When
         swordsman.equipItem(swordsmanWeapon);
@@ -92,19 +92,19 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該拒絕裝備不相容的裝備")
+    @DisplayName("GIVEN: 不相容的裝備 WHEN: 調用 equipItem() THEN: 應該拋出 IllegalArgumentException")
     void shouldRejectIncompatibleEquipment() {
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             swordsman.equipItem(mageWeapon);
         });
-        
+
         assertTrue(exception.getMessage().contains("巫師法杖"));
         assertTrue(exception.getMessage().contains("SWORDSMAN"));
     }
 
     @Test
-    @DisplayName("法師應該能夠裝備法師專用裝備")
+    @DisplayName("GIVEN: 法師和法師專用裝備 WHEN: 調用 equipItem() THEN: 應該成功裝備")
     void mageShouldEquipMageOnlyEquipment() {
         // When
         mage.equipItem(mageWeapon);
@@ -116,7 +116,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該能夠裝備通用裝備")
+    @DisplayName("GIVEN: 通用裝備 WHEN: 任何英雄調用 equipItem() THEN: 應該成功裝備")
     void shouldEquipUniversalEquipment() {
         // When
         swordsman.equipItem(universalHelmet);
@@ -141,18 +141,18 @@ class HeroTest {
         // Then
         assertEquals(newWeapon, swordsman.getEquippedItem(EquipmentSlot.WEAPON));
         assertNotEquals(swordsmanWeapon, swordsman.getEquippedItem(EquipmentSlot.WEAPON));
-        
+
         // Stats should reflect only the new weapon
         HeroStats expectedStats = baseStats.add(newWeapon.getStatBonus());
         assertEquals(expectedStats, swordsman.getCurrentStats());
     }
 
     @Test
-    @DisplayName("應該能夠移除裝備")
+    @DisplayName("GIVEN: 已裝備的裝備 WHEN: 調用 unequipItem() THEN: 應該移除裝備並恢復屬性")
     void shouldUnequipItem() {
         // Given
         swordsman.equipItem(swordsmanWeapon);
-        
+
         // When
         swordsman.unequipItem(EquipmentSlot.WEAPON);
 
@@ -162,18 +162,18 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("移除不存在的裝備應該不產生錯誤")
+    @DisplayName("GIVEN: 未裝備的槽位 WHEN: 調用 unequipItem() THEN: 應該不產生錯誤")
     void unequipNonExistentItemShouldNotCauseError() {
         // When & Then (should not throw)
         assertDoesNotThrow(() -> {
             swordsman.unequipItem(EquipmentSlot.WEAPON);
         });
-        
+
         assertNull(swordsman.getEquippedItem(EquipmentSlot.WEAPON));
     }
 
     @Test
-    @DisplayName("應該能夠裝備多個不同槽位的裝備")
+    @DisplayName("GIVEN: 多個不同槽位的裝備 WHEN: 分別裝備 THEN: 應該累積所有裝備的屬性加成")
     void shouldEquipMultipleItemsInDifferentSlots() {
         // When
         swordsman.equipItem(swordsmanWeapon);
@@ -194,13 +194,13 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("getCurrentStats() 應該確保屬性不為負數")
+    @DisplayName("GIVEN: 負屬性加成的裝備 WHEN: 調用 getCurrentStats() THEN: 應該確保屬性不為負數")
     void getCurrentStatsShouldEnsureNonNegativeStats() {
         // Given
         Equipment cursedItem = new Equipment("詛咒之劍", EquipmentSlot.WEAPON, 
                                            new HeroStats(-200, -50, -50, -50), 
                                            Set.of(HeroType.SWORDSMAN));
-        
+
         // When
         swordsman.equipItem(cursedItem);
         HeroStats currentStats = swordsman.getCurrentStats();
@@ -272,13 +272,13 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該能夠處理具有零屬性加成的裝備")
+    @DisplayName("GIVEN: 零屬性加成的裝備 WHEN: 裝備該裝備 THEN: 應該不改變英雄屬性")
     void shouldHandleEquipmentWithZeroStatBonus() {
         // Given
         Equipment decorativeItem = new Equipment("裝飾品", EquipmentSlot.HELMET, 
                                                 new HeroStats(0, 0, 0, 0), 
                                                 Set.of(HeroType.SWORDSMAN));
-        
+
         // When
         swordsman.equipItem(decorativeItem);
 
@@ -288,7 +288,7 @@ class HeroTest {
     }
 
     @Test
-    @DisplayName("應該能夠處理複雜的裝備組合")
+    @DisplayName("GIVEN: 複雜的裝備組合 WHEN: 裝備多個不同效果的裝備 THEN: 應該正確計算最終屬性")
     void shouldHandleComplexEquipmentCombination() {
         // Given
         Equipment powerfulWeapon = new Equipment("傳說之劍", EquipmentSlot.WEAPON, 
@@ -312,7 +312,7 @@ class HeroTest {
                 .add(magicHelmet.getStatBonus())
                 .add(cursedShield.getStatBonus())
                 .ensureNonNegative();
-        
+
         assertEquals(expectedStats, swordsman.getCurrentStats());
         assertEquals(3, swordsman.getAllEquipment().size());
     }

@@ -25,7 +25,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建具有正確屬性的 Equipment")
+    @DisplayName("GIVEN: 提供有效的裝備參數 WHEN: 創建 Equipment THEN: 應該正確設置所有屬性")
     void shouldCreateEquipmentWithCorrectAttributes() {
         // Given
         String name = "鐵劍";
@@ -42,7 +42,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 名稱")
+    @DisplayName("GIVEN: null 名稱參數 WHEN: 創建 Equipment THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullName() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -51,7 +51,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 裝備槽")
+    @DisplayName("GIVEN: null 裝備槽參數 WHEN: 創建 Equipment THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullSlot() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -60,7 +60,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 屬性加成")
+    @DisplayName("GIVEN: null 屬性加成參數 WHEN: 創建 Equipment THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullStatBonus() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -69,7 +69,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("構造函數應該拒絕 null 允許的英雄類型")
+    @DisplayName("GIVEN: null 允許英雄類型參數 WHEN: 創建 Equipment THEN: 應該拋出 NullPointerException")
     void constructorShouldRejectNullAllowedHeroTypes() {
         // When & Then
         assertThrows(NullPointerException.class, () -> {
@@ -78,7 +78,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("canBeEquippedBy() 應該允許指定的英雄類型裝備")
+    @DisplayName("GIVEN: 指定英雄類型的裝備 WHEN: 調用 canBeEquippedBy() THEN: 應該允許指定類型裝備")
     void canBeEquippedByShouldAllowSpecifiedHeroTypes() {
         // Given
         Equipment equipment = new Equipment("鐵劍", EquipmentSlot.WEAPON, statBonus, allowedHeroTypes);
@@ -89,7 +89,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("canBeEquippedBy() 應該允許所有英雄類型裝備空的允許類型集合")
+    @DisplayName("GIVEN: 空的允許類型集合 WHEN: 調用 canBeEquippedBy() THEN: 應該允許所有英雄類型裝備")
     void canBeEquippedByShouldAllowAllHeroTypesForEmptyAllowedTypes() {
         // Given
         Set<HeroType> emptyAllowedTypes = new HashSet<>();
@@ -101,7 +101,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("canBeEquippedBy() 應該允許多個指定的英雄類型裝備")
+    @DisplayName("GIVEN: 多個指定英雄類型的裝備 WHEN: 調用 canBeEquippedBy() THEN: 應該允許多個指定類型裝備")
     void canBeEquippedByShouldAllowMultipleSpecifiedHeroTypes() {
         // Given
         Set<HeroType> multipleTypes = new HashSet<>();
@@ -115,7 +115,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建法師專用裝備")
+    @DisplayName("GIVEN: 法師專用裝備參數 WHEN: 創建 Equipment THEN: 應該創建法師專用裝備")
     void shouldCreateMageOnlyEquipment() {
         // Given
         Set<HeroType> mageOnly = new HashSet<>();
@@ -134,7 +134,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建防禦型裝備")
+    @DisplayName("GIVEN: 防禦型裝備參數 WHEN: 創建 Equipment THEN: 應該創建防禦型裝備")
     void shouldCreateDefensiveEquipment() {
         // Given
         HeroStats defenseBonus = new HeroStats(10, 0, 5, 0);
@@ -152,7 +152,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("equals() 應該正確比較兩個 Equipment")
+    @DisplayName("GIVEN: 兩個 Equipment 實例 WHEN: 調用 equals() 方法 THEN: 應該正確比較兩個裝備")
     void equalsShouldCorrectlyCompareTwoEquipments() {
         // Given
         Equipment equipment1 = new Equipment("鐵劍", EquipmentSlot.WEAPON, statBonus, allowedHeroTypes);
@@ -170,7 +170,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("hashCode() 應該為相等的 Equipment 返回相同的值")
+    @DisplayName("GIVEN: 兩個相等的 Equipment WHEN: 調用 hashCode() THEN: 應該返回相同的值")
     void hashCodeShouldReturnSameValueForEqualEquipments() {
         // Given
         Equipment equipment1 = new Equipment("鐵劍", EquipmentSlot.WEAPON, statBonus, allowedHeroTypes);
@@ -181,7 +181,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("toString() 應該包含所有重要屬性")
+    @DisplayName("GIVEN: 一個 Equipment 實例 WHEN: 調用 toString() THEN: 應該包含所有重要屬性")
     void toStringShouldContainAllImportantAttributes() {
         // Given
         Equipment equipment = new Equipment("鐵劍", EquipmentSlot.WEAPON, statBonus, allowedHeroTypes);
@@ -197,7 +197,7 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("getAllowedHeroTypes() 應該返回不可變的集合")
+    @DisplayName("GIVEN: 一個 Equipment 實例 WHEN: 調用 getAllowedHeroTypes() THEN: 應該返回不可變集合")
     void getAllowedHeroTypesShouldReturnImmutableSet() {
         // Given
         Equipment equipment = new Equipment("鐵劍", EquipmentSlot.WEAPON, statBonus, allowedHeroTypes);
@@ -214,11 +214,11 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建具有負屬性加成的裝備")
+    @DisplayName("GIVEN: 負屬性加成參數 WHEN: 創建 Equipment THEN: 應該創建具有負屬性加成的裝備")
     void shouldCreateEquipmentWithNegativeStatBonus() {
         // Given
         HeroStats negativeBonus = new HeroStats(-5, -2, -1, -3);
-        
+
         // When
         Equipment cursedItem = new Equipment("詛咒之劍", EquipmentSlot.WEAPON, negativeBonus, allowedHeroTypes);
 
@@ -230,11 +230,11 @@ class EquipmentTest {
     }
 
     @Test
-    @DisplayName("應該能夠創建具有零屬性加成的裝備")
+    @DisplayName("GIVEN: 零屬性加成參數 WHEN: 創建 Equipment THEN: 應該創建具有零屬性加成的裝備")
     void shouldCreateEquipmentWithZeroStatBonus() {
         // Given
         HeroStats zeroBonus = new HeroStats(0, 0, 0, 0);
-        
+
         // When
         Equipment decorativeItem = new Equipment("裝飾品", EquipmentSlot.HELMET, zeroBonus, allowedHeroTypes);
 
