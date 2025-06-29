@@ -2,7 +2,7 @@ spring:
   application:
     name: finalfantasy
   main:
-    web-application-type: none
+    web-application-type: servlet
   docker:
     compose:
       enabled: false
