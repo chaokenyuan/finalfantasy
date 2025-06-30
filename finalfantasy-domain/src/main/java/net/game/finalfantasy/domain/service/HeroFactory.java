@@ -7,6 +7,9 @@ import net.game.finalfantasy.domain.model.stats.HeroStats;
 public class HeroFactory {
 
     public static Hero createHero(String name, HeroType type) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Hero name cannot be null or empty");
+        }
         HeroStats baseStats = getDefaultStatsForType(type);
         return new Hero(name, type, baseStats);
     }
