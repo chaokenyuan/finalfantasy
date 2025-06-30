@@ -93,7 +93,7 @@ public class ApplicationIntegrationSteps {
     }
 
     @And("操作應該在500毫秒內完成")
-    public void 操作應該在500毫秒內完成() {
+    public void shouldFinishAt500ms() {
         long operationTime = System.currentTimeMillis() - operationStartTime;
         assertTrue(operationTime <= 500, 
             "Operation should complete within 500ms, but took " + operationTime + "ms");
