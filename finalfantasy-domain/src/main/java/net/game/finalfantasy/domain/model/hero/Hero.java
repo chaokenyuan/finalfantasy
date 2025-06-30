@@ -10,12 +10,18 @@ import java.util.Objects;
 public class Hero {
     private final String name;
     private final HeroType type;
+    private final HeroRole role;
     private final HeroStats baseStats;
     private final Map<EquipmentSlot, Equipment> equipment;
 
     public Hero(String name, HeroType type, HeroStats baseStats) {
+        this(name, type, null, baseStats);
+    }
+
+    public Hero(String name, HeroType type, HeroRole role, HeroStats baseStats) {
         this.name = Objects.requireNonNull(name, "Hero name cannot be null");
         this.type = Objects.requireNonNull(type, "Hero type cannot be null");
+        this.role = role; // Role can be null for backward compatibility
         this.baseStats = Objects.requireNonNull(baseStats, "Base stats cannot be null");
         this.equipment = new HashMap<>();
     }
@@ -26,6 +32,10 @@ public class Hero {
 
     public HeroType getType() {
         return type;
+    }
+
+    public HeroRole getRole() {
+        return role;
     }
 
     public HeroStats getBaseStats() {
@@ -69,12 +79,12 @@ public class Hero {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Hero hero = (Hero) o;
-        return Objects.equals(name, hero.name) && type == hero.type;
+        return Objects.equals(name, hero.name) && type == hero.type && Objects.equals(role, hero.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type);
+        return Objects.hash(name, type, role);
     }
 
     @Override
@@ -82,6 +92,7 @@ public class Hero {
         return "Hero{" +
                 "name='" + name + '\'' +
                 ", type=" + type +
+                ", role=" + role +
                 ", currentStats=" + getCurrentStats() +
                 '}';
     }
