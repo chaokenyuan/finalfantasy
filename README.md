@@ -1,6 +1,6 @@
-# Final Fantasy Game Backend
+# Final Fantasy Game System
 
-A comprehensive backend system for a Final Fantasy-style game, built with Spring Boot and implementing hexagonal architecture principles.
+A comprehensive full-stack system for a Final Fantasy-style game, featuring a Spring Boot backend with hexagonal architecture and a modern React frontend.
 
 ## 🌐 Language / 語言
 
@@ -9,16 +9,20 @@ A comprehensive backend system for a Final Fantasy-style game, built with Spring
 
 ## 🎮 Project Overview
 
-This project provides a complete backend solution for managing heroes, equipment, and game mechanics in a Final Fantasy-inspired game. The system is designed with clean architecture principles, separating concerns across multiple modules and providing both REST APIs and real-time communication capabilities.
+This project provides a complete full-stack solution for managing heroes, equipment, and game mechanics in a Final Fantasy-inspired game. The backend is designed with clean architecture principles, separating concerns across multiple modules and providing both REST APIs and real-time communication capabilities. The frontend offers a modern React-based web interface with intuitive hero management and real-time game status monitoring.
 
 ## 🏗️ Architecture
 
-The project follows **Hexagonal Architecture** (Ports and Adapters) with the following modules:
+The project follows **Hexagonal Architecture** (Ports and Adapters) for the backend with a modern React frontend:
 
+### Backend Modules
 - **`finalfantasy-domain`** - Core business logic and domain models
 - **`finalfantasy-application`** - Application services and use cases
 - **`finalfantasy-infrastructure`** - External adapters (web controllers, repositories, external services)
 - **`finalfantasy-web`** - Main application entry point and web configuration
+
+### Frontend Module
+- **`finalfantasy-frontend`** - React-based web application with modern UI components
 
 ## 🚀 Features
 
@@ -28,7 +32,15 @@ The project follows **Hexagonal Architecture** (Ports and Adapters) with the fol
 - **Stats System**: Dynamic stat calculation based on hero type and equipped items
 - **Game Rules Validation**: Business rule enforcement for game mechanics
 
-### Technical Features
+### Frontend Features
+- **Modern React UI**: Responsive web interface with intuitive design
+- **Hero Management Interface**: Create, search, and manage heroes with visual feedback
+- **Equipment Management**: Interactive equipment system with drag-and-drop functionality
+- **Real-time Status Monitoring**: Live game server status and health monitoring
+- **Chinese Localization**: Complete Traditional Chinese interface
+- **Responsive Design**: Mobile and desktop optimized layouts
+
+### Backend Technical Features
 - **REST API** with Swagger/OpenAPI documentation
 - **gRPC Services** for high-performance communication
 - **Vert.x HTTP Server** for additional game-specific endpoints
@@ -42,6 +54,14 @@ The project follows **Hexagonal Architecture** (Ports and Adapters) with the fol
 
 ## 🛠️ Technology Stack
 
+### Frontend
+- **React 18** - Modern frontend framework
+- **React Router** - Single-page application routing
+- **Axios** - HTTP client for API communication
+- **CSS Grid/Flexbox** - Responsive layout system
+- **ES6+** - Modern JavaScript features
+
+### Backend
 - **Java 17**
 - **Spring Boot 3.5.3**
 - **Spring gRPC**
@@ -60,20 +80,25 @@ The project follows **Hexagonal Architecture** (Ports and Adapters) with the fol
 
 ## 📋 Prerequisites
 
+### Backend
 - Java 17 or higher
 - Maven 3.6+
 - IDE with Lombok support (IntelliJ IDEA, Eclipse, VS Code)
 
+### Frontend
+- Node.js 16+ 
+- npm or yarn
+
 ## 🚀 Quick Start
 
-### 1. Clone and Build
+### 1. Clone and Build Backend
 ```bash
 git clone <repository-url>
 cd finalfantasy
 mvn clean install
 ```
 
-### 2. Run the Application
+### 2. Run the Backend
 ```bash
 # Default (local environment)
 mvn spring-boot:run
@@ -82,7 +107,22 @@ mvn spring-boot:run
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-### 3. Access the APIs
+### 3. Setup and Run Frontend
+```bash
+# In a new terminal window
+cd finalfantasy-frontend
+npm install
+npm start
+```
+
+### 4. Access the Application
+
+#### Frontend Web Application
+- **Main Application**: http://localhost:3000
+- **Hero Management**: http://localhost:3000/ (default page)
+- **Game Status**: http://localhost:3000/status
+
+#### Backend APIs
 
 #### REST API & Swagger UI
 - **Swagger UI**: http://localhost:8080/swagger-ui/index.html

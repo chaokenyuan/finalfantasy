@@ -1,6 +1,6 @@
-# Final Fantasy 遊戲後端
+# Final Fantasy 遊戲系統
 
-一個基於 Spring Boot 並實現六角架構原則的 Final Fantasy 風格遊戲綜合後端系統。
+一個基於 Spring Boot 六角架構後端和現代 React 前端的 Final Fantasy 風格遊戲綜合全端系統。
 
 ## 🌐 Language / 語言
 
@@ -9,16 +9,20 @@
 
 ## 🎮 專案概述
 
-本專案為 Final Fantasy 風格遊戲提供完整的後端解決方案，用於管理英雄、裝備和遊戲機制。系統採用清潔架構原則設計，將關注點分離到多個模組中，並提供 REST API 和即時通訊功能。
+本專案為 Final Fantasy 風格遊戲提供完整的全端解決方案，用於管理英雄、裝備和遊戲機制。後端採用清潔架構原則設計，將關注點分離到多個模組中，並提供 REST API 和即時通訊功能。前端提供現代化的 React 網頁介面，具備直觀的英雄管理和即時遊戲狀態監控功能。
 
 ## 🏗️ 架構
 
-專案遵循**六角架構**（埠和適配器）模式，包含以下模組：
+專案後端遵循**六角架構**（埠和適配器）模式，搭配現代化 React 前端：
 
+### 後端模組
 - **`finalfantasy-domain`** - 核心業務邏輯和領域模型
 - **`finalfantasy-application`** - 應用服務和用例
 - **`finalfantasy-infrastructure`** - 外部適配器（Web 控制器、儲存庫、外部服務）
 - **`finalfantasy-web`** - 主應用程式入口點和 Web 配置
+
+### 前端模組
+- **`finalfantasy-frontend`** - 基於 React 的網頁應用程式，具備現代化 UI 元件
 
 ## 🚀 功能特色
 
@@ -28,7 +32,15 @@
 - **屬性系統**：基於英雄類型和裝備物品的動態屬性計算
 - **遊戲規則驗證**：遊戲機制的業務規則執行
 
-### 技術功能
+### 前端功能
+- **現代化 React UI**：具備直觀設計的響應式網頁介面
+- **英雄管理介面**：創建、搜尋和管理英雄，具備視覺化回饋
+- **裝備管理**：互動式裝備系統，支援拖放功能
+- **即時狀態監控**：即時遊戲伺服器狀態和健康監控
+- **中文本地化**：完整的繁體中文介面
+- **響應式設計**：針對行動裝置和桌面優化的版面配置
+
+### 後端技術功能
 - **REST API** 與 Swagger/OpenAPI 文檔
 - **gRPC 服務** 用於高效能通訊
 - **Vert.x HTTP 伺服器** 用於額外的遊戲特定端點
@@ -42,6 +54,14 @@
 
 ## 🛠️ 技術堆疊
 
+### 前端
+- **React 18** - 現代化前端框架
+- **React Router** - 單頁應用程式路由
+- **Axios** - API 通訊的 HTTP 客戶端
+- **CSS Grid/Flexbox** - 響應式版面配置系統
+- **ES6+** - 現代化 JavaScript 功能
+
+### 後端
 - **Java 17**
 - **Spring Boot 3.5.3**
 - **Spring gRPC**
@@ -60,20 +80,25 @@
 
 ## 📋 先決條件
 
+### 後端
 - Java 17 或更高版本
 - Maven 3.6+
 - 支援 Lombok 的 IDE（IntelliJ IDEA、Eclipse、VS Code）
 
+### 前端
+- Node.js 16+ 
+- npm 或 yarn
+
 ## 🚀 快速開始
 
-### 1. 複製和建置
+### 1. 複製和建置後端
 ```bash
 git clone <repository-url>
 cd finalfantasy
 mvn clean install
 ```
 
-### 2. 執行應用程式
+### 2. 執行後端
 ```bash
 # 預設（本地環境）
 mvn spring-boot:run
@@ -82,7 +107,22 @@ mvn spring-boot:run
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-### 3. 存取 API
+### 3. 設定和執行前端
+```bash
+# 在新的終端視窗中
+cd finalfantasy-frontend
+npm install
+npm start
+```
+
+### 4. 存取應用程式
+
+#### 前端網頁應用程式
+- **主應用程式**：http://localhost:3000
+- **英雄管理**：http://localhost:3000/（預設頁面）
+- **遊戲狀態**：http://localhost:3000/status
+
+#### 後端 API
 
 #### REST API 和 Swagger UI
 - **Swagger UI**：http://localhost:8080/swagger-ui/index.html
@@ -393,6 +433,14 @@ finalfantasy/
 │           ├── CucumberSpringConfiguration.java
 │           ├── CucumberTestRunner.java
 │           └── TestConfiguration.java
+├── finalfantasy-frontend/        # React 前端應用程式
+│   ├── public/                   # 靜態檔案
+│   ├── src/                      # React 原始碼
+│   │   ├── components/           # React 元件
+│   │   ├── services/             # API 服務
+│   │   └── App.js                # 主應用程式元件
+│   ├── package.json              # Node.js 相依性
+│   └── README.md                 # 前端文檔
 ├── compose.yaml                 # Docker Compose 配置
 └── pom.xml                      # 父 POM 配置
 ```
