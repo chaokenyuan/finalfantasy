@@ -12,6 +12,7 @@ public class FF6Character {
     private final int hp;
     private final int defense;
     private final int battlePower;
+    private final int magicPower;
     private final Set<CharacterAbility> abilities;
     private final Set<StatusEffect> statusEffects;
     private final Set<EquipmentRestriction> equipmentRestrictions;
@@ -28,6 +29,7 @@ public class FF6Character {
         this.hp = hp;
         this.defense = defense;
         this.battlePower = 0;
+        this.magicPower = 0;
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
@@ -45,6 +47,25 @@ public class FF6Character {
         this.hp = hp;
         this.defense = defense;
         this.battlePower = battlePower;
+        this.magicPower = 0;
+        this.abilities = new HashSet<>();
+        this.statusEffects = new HashSet<>();
+        this.equipmentRestrictions = new HashSet<>();
+        this.equipment = new HashSet<>();
+        this.weaponCount = 0; // Initialize weapon count
+        this.position = BattlePosition.FRONT_ROW;
+        this.canEquipEspers = false;
+        this.canGrow = true;
+        this.isAIControlled = false;
+    }
+
+    public FF6Character(String name, int level, int hp, int defense, int battlePower, int magicPower) {
+        this.name = name;
+        this.level = level;
+        this.hp = hp;
+        this.defense = defense;
+        this.battlePower = battlePower;
+        this.magicPower = magicPower;
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
@@ -62,6 +83,7 @@ public class FF6Character {
     public int getHp() { return hp; }
     public int getDefense() { return defense; }
     public int getBattlePower() { return battlePower; }
+    public int getMagicPower() { return magicPower; }
     public Set<CharacterAbility> getAbilities() { return new HashSet<>(abilities); }
     public Set<StatusEffect> getStatusEffects() { return new HashSet<>(statusEffects); }
     public Set<EquipmentRestriction> getEquipmentRestrictions() { return new HashSet<>(equipmentRestrictions); }
