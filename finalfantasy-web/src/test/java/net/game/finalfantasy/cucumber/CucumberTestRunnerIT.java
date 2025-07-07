@@ -23,5 +23,5 @@ import org.junit.runner.RunWith;
         },
         tags = "not @ignore"
 )
-public class CucumberTestRunner {
+public class CucumberTestRunnerIT {
 }

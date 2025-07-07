@@ -5,10 +5,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @CucumberContextConfiguration
-@SpringBootTest(classes = net.game.finalfantasy.FinalFantasyApplication.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestPropertySource(properties = {
-        "logging.level.net.game.finalfantasy=DEBUG",
-        "spring.main.web-application-type=none"
+        "spring.main.web-application-type=none",
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration",
+        "spring.grpc.server.port=0"
 })
 public class CucumberSpringConfiguration {
 }
