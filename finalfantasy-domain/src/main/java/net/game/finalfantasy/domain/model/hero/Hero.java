@@ -5,24 +5,30 @@ import net.game.finalfantasy.domain.model.stats.HeroStats;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
+/**
+ * 基礎英雄模型 (為了兼容現有基礎設施)
+ */
 public class Hero {
     private final String name;
     private final HeroType type;
-    private final HeroRole role;
     private final HeroStats baseStats;
+    private HeroStats currentStats;
     private final Map<EquipmentSlot, Equipment> equipment;
 
-    public Hero(String name, HeroType type, HeroStats baseStats) {
-        this(name, type, null, baseStats);
+    public Hero(String name, HeroType type) {
+        this.name = name;
+        this.type = type;
+        this.baseStats = new HeroStats(100, 10, 10, 10); // Default stats
+        this.currentStats = new HeroStats(100, 10, 10, 10);
+        this.equipment = new HashMap<>();
     }
 
-    public Hero(String name, HeroType type, HeroRole role, HeroStats baseStats) {
-        this.name = Objects.requireNonNull(name, "Hero name cannot be null");
-        this.type = Objects.requireNonNull(type, "Hero type cannot be null");
-        this.role = role; // Role can be null for backward compatibility
-        this.baseStats = Objects.requireNonNull(baseStats, "Base stats cannot be null");
+    public Hero(String name, HeroType type, HeroStats baseStats) {
+        this.name = name;
+        this.type = type;
+        this.baseStats = baseStats;
+        this.currentStats = baseStats;
         this.equipment = new HashMap<>();
     }
 
@@ -34,66 +40,35 @@ public class Hero {
         return type;
     }
 
-    public HeroRole getRole() {
-        return role;
-    }
-
     public HeroStats getBaseStats() {
         return baseStats;
     }
 
     public HeroStats getCurrentStats() {
-        HeroStats current = baseStats.copy();
-
-        for (Equipment equip : equipment.values()) {
-            if (equip != null) {
-                current = current.add(equip.getStatBonus());
-            }
-        }
-
-        return current.ensureNonNegative();
-    }
-
-    public void equipItem(Equipment equipment) {
-        if (!equipment.canBeEquippedBy(this.type)) {
-            throw new IllegalArgumentException("Equipment " + equipment.getName() + " cannot be equipped by " + this.type.name());
-        }
-
-        this.equipment.put(equipment.getSlot(), equipment);
-    }
-
-    public void unequipItem(EquipmentSlot slot) {
-        this.equipment.remove(slot);
-    }
-
-    public Equipment getEquippedItem(EquipmentSlot slot) {
-        return equipment.get(slot);
+        return currentStats;
     }
 
     public Map<EquipmentSlot, Equipment> getAllEquipment() {
         return new HashMap<>(equipment);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hero hero = (Hero) o;
-        return Objects.equals(name, hero.name) && type == hero.type && Objects.equals(role, hero.role);
+    public void equipItem(EquipmentSlot slot, Equipment item) {
+        equipment.put(slot, item);
+        updateCurrentStats();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, type, role);
+    public void unequipItem(EquipmentSlot slot) {
+        equipment.remove(slot);
+        updateCurrentStats();
     }
 
-    @Override
-    public String toString() {
-        return "Hero{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", role=" + role +
-                ", currentStats=" + getCurrentStats() +
-                '}';
+    private void updateCurrentStats() {
+        HeroStats totalStats = baseStats;
+        for (Equipment item : equipment.values()) {
+            if (item != null) {
+                totalStats = totalStats.add(item.getStatBonus());
+            }
+        }
+        this.currentStats = totalStats;
     }
 }

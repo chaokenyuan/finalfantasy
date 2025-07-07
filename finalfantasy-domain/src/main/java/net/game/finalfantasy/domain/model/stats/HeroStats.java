@@ -1,97 +1,56 @@
 package net.game.finalfantasy.domain.model.stats;
 
-import java.util.Objects;
-
+/**
+ * 英雄屬性統計
+ */
 public class HeroStats {
     private final int hp;
-    private final int atk;
-    private final int def;
-    private final int spAtk;
+    private final int attack;
+    private final int defense;
+    private final int specialAttack;
 
-    public HeroStats(int hp, int atk, int def, int spAtk) {
+    public HeroStats(int hp, int attack, int defense, int specialAttack) {
         this.hp = hp;
-        this.atk = atk;
-        this.def = def;
-        this.spAtk = spAtk;
+        this.attack = attack;
+        this.defense = defense;
+        this.specialAttack = specialAttack;
     }
 
     public int getHp() {
         return hp;
     }
 
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public int getSpecialAttack() {
+        return specialAttack;
+    }
+
+    // Alias methods for compatibility with infrastructure layer
     public int getAtk() {
-        return atk;
+        return attack;
     }
 
     public int getDef() {
-        return def;
+        return defense;
     }
 
     public int getSpAtk() {
-        return spAtk;
-    }
-
-    public HeroStats copy() {
-        return new HeroStats(hp, atk, def, spAtk);
+        return specialAttack;
     }
 
     public HeroStats add(HeroStats other) {
         return new HeroStats(
             this.hp + other.hp,
-            this.atk + other.atk,
-            this.def + other.def,
-            this.spAtk + other.spAtk
+            this.attack + other.attack,
+            this.defense + other.defense,
+            this.specialAttack + other.specialAttack
         );
-    }
-
-    public HeroStats ensureNonNegative() {
-        return new HeroStats(
-            Math.max(0, hp),
-            Math.max(0, atk),
-            Math.max(0, def),
-            Math.max(0, spAtk)
-        );
-    }
-
-    public HeroStats withHp(int hp) {
-        return new HeroStats(hp, atk, def, spAtk);
-    }
-
-    public HeroStats withAtk(int atk) {
-        return new HeroStats(hp, atk, def, spAtk);
-    }
-
-    public HeroStats withDef(int def) {
-        return new HeroStats(hp, atk, def, spAtk);
-    }
-
-    public HeroStats withSpAtk(int spAtk) {
-        return new HeroStats(hp, atk, def, spAtk);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HeroStats heroStats = (HeroStats) o;
-        return hp == heroStats.hp && 
-               atk == heroStats.atk && 
-               def == heroStats.def && 
-               spAtk == heroStats.spAtk;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hp, atk, def, spAtk);
-    }
-
-    @Override
-    public String toString() {
-        return "HeroStats{" +
-                "HP=" + hp +
-                ", ATK=" + atk +
-                ", DEF=" + def +
-                ", SpATK=" + spAtk +
-                '}';
     }
 }

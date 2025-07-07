@@ -1,8 +1,11 @@
 package net.game.finalfantasy.domain.model.hero;
 
+/**
+ * 英雄類型枚舉
+ */
 public enum HeroType {
-    SWORDSMAN("劍士"),
-    MAGE("法師");
+    SWORDSMAN("劍士"),  // 劍士
+    MAGE("法師");        // 法師
 
     private final String chineseName;
 
@@ -11,23 +14,6 @@ public enum HeroType {
     }
 
     public String getChineseName() {
-        return chineseName;
-    }
-
-    public static HeroType fromChineseName(String chineseName) {
-        if (chineseName == null) {
-            throw new NullPointerException("Chinese name cannot be null");
-        }
-        for (HeroType type : values()) {
-            if (type.chineseName.equals(chineseName)) {
-                return type;
-            }
-        }
-        throw new IllegalArgumentException("Unknown hero type: " + chineseName);
-    }
-
-    @Override
-    public String toString() {
         return chineseName;
     }
 }
