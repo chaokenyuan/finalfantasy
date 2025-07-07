@@ -104,9 +104,6 @@ public class FF6Character {
         return this.statusEffects.contains(effect);
     }
 
-    public Set<StatusEffect> getStatusEffects() {
-        return new HashSet<>(this.statusEffects);
-    }
 
     // Methods to manage equipment restrictions
     public void addEquipmentRestriction(EquipmentRestriction restriction) {
@@ -143,9 +140,6 @@ public class FF6Character {
         return this.equipment.contains(item);
     }
 
-    public Set<Equipment> getEquipment() {
-        return new HashSet<>(this.equipment);
-    }
 
     public int getEffectiveBattlePower() {
         int effectiveBattlePower = this.battlePower;
