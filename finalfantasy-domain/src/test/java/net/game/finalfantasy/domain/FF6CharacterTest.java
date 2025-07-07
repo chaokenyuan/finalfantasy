@@ -37,7 +37,7 @@ public class FF6CharacterTest {
         FF6Character defender = FF6CharacterFactory.createEnemy(100);
         
         DamageCalculationService damageService = new DamageCalculationService();
-        int damage = damageService.calculatePhysicalDamage(attacker, defender, false, false);
+        int damage = damageService.calculatePhysicalDamage(attacker, defender);
         
         assertTrue(damage > 0);
     }
@@ -53,7 +53,7 @@ public class FF6CharacterTest {
         
         FF6Character enemy = FF6CharacterFactory.createEnemy(100);
         DamageCalculationService damageService = new DamageCalculationService();
-        int damage = damageService.calculatePhysicalDamage(character, enemy, false, false);
+        int damage = damageService.calculatePhysicalDamage(character, enemy);
         
         assertTrue(damage > 0);
     }

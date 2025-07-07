@@ -15,6 +15,8 @@ public class FF6Character {
     private final Set<CharacterAbility> abilities;
     private final Set<StatusEffect> statusEffects;
     private final Set<EquipmentRestriction> equipmentRestrictions;
+    private final Set<Equipment> equipment;
+    private int weaponCount; // New field to track equipped weapons
     private BattlePosition position;
     private boolean canEquipEspers;
     private boolean canGrow;
@@ -29,6 +31,8 @@ public class FF6Character {
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
+        this.equipment = new HashSet<>();
+        this.weaponCount = 0; // Initialize weapon count
         this.position = BattlePosition.FRONT_ROW;
         this.canEquipEspers = false;
         this.canGrow = true;
@@ -44,6 +48,8 @@ public class FF6Character {
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
+        this.equipment = new HashSet<>();
+        this.weaponCount = 0; // Initialize weapon count
         this.position = BattlePosition.FRONT_ROW;
         this.canEquipEspers = false;
         this.canGrow = true;
@@ -59,6 +65,8 @@ public class FF6Character {
     public Set<CharacterAbility> getAbilities() { return new HashSet<>(abilities); }
     public Set<StatusEffect> getStatusEffects() { return new HashSet<>(statusEffects); }
     public Set<EquipmentRestriction> getEquipmentRestrictions() { return new HashSet<>(equipmentRestrictions); }
+    public Set<Equipment> getEquipment() { return new HashSet<>(equipment); }
+    public int getWeaponCount() { return weaponCount; } // New getter for weapon count
     public BattlePosition getPosition() { return position; }
     public boolean canEquipEspers() { return canEquipEspers; }
     public boolean canGrow() { return canGrow; }
@@ -107,5 +115,35 @@ public class FF6Character {
 
     public boolean hasEquipmentRestriction(EquipmentRestriction restriction) {
         return this.equipmentRestrictions.contains(restriction);
+    }
+
+    // Methods to manage equipment
+    public void equipItem(Equipment item) {
+        this.equipment.add(item);
+        // Assuming that any item added via equipItem could potentially be a weapon.
+        // A more robust solution would involve an `isWeapon` property on the Equipment enum.
+        // For now, we'll increment weaponCount for simplicity based on the feature files.
+        if (item.getName().toLowerCase().contains("weapon") || item.getName().toLowerCase().contains("sword") || item.getName().toLowerCase().contains("dagger")) { // Simplified check for weapons
+            this.weaponCount++;
+        }
+    }
+
+    public void unequipItem(Equipment item) {
+        this.equipment.remove(item);
+        if (item.getName().toLowerCase().contains("weapon") || item.getName().toLowerCase().contains("sword") || item.getName().toLowerCase().contains("dagger")) { // Simplified check for weapons
+            this.weaponCount--;
+        }
+    }
+
+    public boolean hasEquipment(Equipment item) {
+        return this.equipment.contains(item);
+    }
+
+    public int getEffectiveBattlePower() {
+        int effectiveBattlePower = this.battlePower;
+        if (hasEquipment(Equipment.IRON_FIST)) {
+            effectiveBattlePower += (int) (this.battlePower * 0.75);
+        }
+        return effectiveBattlePower;
     }
 }

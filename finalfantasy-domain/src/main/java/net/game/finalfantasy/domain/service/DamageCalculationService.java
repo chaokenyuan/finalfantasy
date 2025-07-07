@@ -3,6 +3,7 @@ package net.game.finalfantasy.domain.service;
 import net.game.finalfantasy.domain.model.character.FF6Character;
 import net.game.finalfantasy.domain.model.character.StatusEffect;
 import net.game.finalfantasy.domain.model.character.BattlePosition;
+import net.game.finalfantasy.domain.model.character.Equipment;
 import java.util.Random;
 
 /**
@@ -25,18 +26,32 @@ public class DamageCalculationService {
      * 計算物理攻擊傷害
      * @param attacker 攻擊者
      * @param defender 防禦者
+     * @return 計算後的傷害值
+     */
+    public int calculatePhysicalDamage(FF6Character attacker, FF6Character defender) {
+        return calculatePhysicalDamage(attacker, defender, false, false);
+    }
+    
+    /**
+     * 計算物理攻擊傷害
+     * @param attacker 攻擊者
+     * @param defender 防禦者
      * @param hasGenjiGlove 是否裝備源氏手套
      * @param usingOneWeapon 是否僅使用一把武器
      * @return 計算後的傷害值
      */
-    public int calculatePhysicalDamage(FF6Character attacker, FF6Character defender, 
-                                     boolean hasGenjiGlove, boolean usingOneWeapon) {
+    public int calculatePhysicalDamage(FF6Character attacker, FF6Character defender, boolean hasGenjiGlove, boolean usingOneWeapon) {
         
-        // 基礎傷害 = 戰鬥力
-        double damage = attacker.getBattlePower();
+        // 基礎傷害 = 戰鬥力 (考慮 Iron Fist)
+        double damage = attacker.getEffectiveBattlePower();
         
+        // Hero Ring 效果
+        if (attacker.hasEquipment(Equipment.HERO_RING)) {
+            damage *= Equipment.HERO_RING.getDamageMultiplier();
+        }
+
         // 源氏手套效果：僅使用一把武器時傷害減少25%
-        if (hasGenjiGlove && usingOneWeapon) {
+        if (attacker.hasEquipment(Equipment.GENJI_GLOVE) && attacker.getWeaponCount() == 1) {
             damage *= 0.75; // 減少25%
         }
         

@@ -1,7 +1,7 @@
-Feature: FF6 物理傷害計算
+Feature: FF6 物理傷害計算 （角色：Shadow）
 
   作為一位模擬 Final Fantasy VI 戰鬥系統的開發者
-  我希望能根據 Terii Senshi 的傷害公式計算物理攻擊的傷害
+  我希望能根據 Terii Senshi 的傷害公式計算 Shadow 的物理攻擊的傷害
   以便驗證不同角色與裝備組合的傷害結果
 
   Background:
