@@ -30,6 +30,8 @@ public class AllCharacterSteps {
 
     @Given("{} 的戰鬥力為 {int}")
     public void setCharacterBattlePower(String name, int battlePower) {
+        FF6Character currentChar = gameState.getCurrentCharacter();
+        
         // Get appropriate level and HP based on character
         int level = 30, hp = 40;
         switch (name) {
@@ -48,7 +50,25 @@ public class AllCharacterSteps {
             case "Gogo": level = 28; hp = 30; break;
             case "Umaro": level = 35; hp = 60; break;
         }
-        gameState.setCurrentCharacter(FF6CharacterFactory.createCharacter(name, level, hp, 0, battlePower));
+        
+        // Create new character
+        FF6Character newChar = FF6CharacterFactory.createCharacter(name, level, hp, 0, battlePower);
+        
+        // If there was an existing character with the same name, preserve their status effects and other properties
+        if (currentChar != null && currentChar.getName().equals(name)) {
+            // Copy status effects from old character to new character
+            for (StatusEffect effect : currentChar.getStatusEffects()) {
+                newChar.addStatusEffect(effect);
+            }
+            // Copy position
+            newChar.setPosition(currentChar.getPosition());
+            // Copy equipment
+            for (Equipment equipment : currentChar.getEquipment()) {
+                newChar.equipItem(equipment);
+            }
+        }
+        
+        gameState.setCurrentCharacter(newChar);
     }
 
     // ===== Character Status Effects =====
