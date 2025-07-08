@@ -43,6 +43,6 @@ Scenario: Dispel - 移除強化
   Then 移除敵人的 "Shell", "Safe", "Haste" 等增益效果
 
 Scenario: Holy - 神聖攻擊
-  Then 傷害公式為 "damage = 150 * magicPower + random(0,15)"
+  Then Holy的傷害公式為 "damage = 150 * magicPower + random(0,15)"
   And 傷害屬性為 "神聖"
   And 對 "不死系" 敵人的傷害加倍
