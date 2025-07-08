@@ -63,3 +63,16 @@ Scenario: Ultima - 最強魔法
   Then 對所有敵人造成 "無屬性" 傷害
   And 傷害公式為 "damage = 150 * magicPower + random(0,15)"
   And 此傷害不受任何抗性影響
+
+  # ──────── 元素系統 ────────
+
+  Scenario: 元素屬性修正
+    Given 基礎傷害為 2000
+    And 攻擊屬性為 "FIRE"
+    When 計算元素屬性對傷害的影響
+    Then 應根據目標的元素抗性得到以下結果
+      | 目標抗性 | 效果             | 最終傷害/回復公式          |
+      | 弱點     | 傷害加倍         | finalDamage = baseDamage * 2 |
+      | 耐性     | 傷害減半         | finalDamage = baseDamage * 0.5 |
+      | 免疫     | 傷害無效         | finalDamage = 0              |
+      | 吸收     | 傷害轉為回復     | healing = baseDamage         |

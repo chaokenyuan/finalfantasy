@@ -12,7 +12,7 @@ Scenario: Ifrit - 地獄火焰
   Given 幻獸為 "Ifrit"
   And 幻獸的 "Spell Power" 為 50
   And 幻獸的 "魔力" 為 40
-  Then 傷害公式為 "damage = spellPower * magic + random(0,15)"
+  Then 幻獸傷害公式為 "damage = spellPower * magic + random(0,15)"
   And 魔法學習列表為:
     | spell | rate |
     | Fire  | 10   |
@@ -23,7 +23,7 @@ Scenario: Bahamut - Megaflare
   Given 幻獸為 "Bahamut"
   And 幻獸的 "Spell Power" 為 150
   And 幻獸的 "魔力" 為 40
-  Then 傷害公式為 "damage = spellPower * magic + random(0,15)"
+  Then 幻獸傷害公式為 "damage = spellPower * magic + random(0,15)"
   And 魔法學習列表為空
 
 # --- 範例 2: 回復與復活型 ---

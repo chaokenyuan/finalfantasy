@@ -13,6 +13,8 @@ public class FF6Character {
     private final int defense;
     private final int battlePower;
     private final int magicPower;
+    private int maxHp;
+    private int currentMagicPower;
     private final Set<CharacterAbility> abilities;
     private final Set<StatusEffect> statusEffects;
     private final Set<EquipmentRestriction> equipmentRestrictions;
@@ -30,6 +32,8 @@ public class FF6Character {
         this.defense = defense;
         this.battlePower = 0;
         this.magicPower = 0;
+        this.maxHp = hp;
+        this.currentMagicPower = 0;
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
@@ -48,6 +52,8 @@ public class FF6Character {
         this.defense = defense;
         this.battlePower = battlePower;
         this.magicPower = 0;
+        this.maxHp = hp;
+        this.currentMagicPower = 0;
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
@@ -66,6 +72,8 @@ public class FF6Character {
         this.defense = defense;
         this.battlePower = battlePower;
         this.magicPower = magicPower;
+        this.maxHp = hp;
+        this.currentMagicPower = magicPower;
         this.abilities = new HashSet<>();
         this.statusEffects = new HashSet<>();
         this.equipmentRestrictions = new HashSet<>();
@@ -83,7 +91,8 @@ public class FF6Character {
     public int getHp() { return hp; }
     public int getDefense() { return defense; }
     public int getBattlePower() { return battlePower; }
-    public int getMagicPower() { return magicPower; }
+    public int getMagicPower() { return currentMagicPower; }
+    public int getMaxHp() { return maxHp; }
     public Set<CharacterAbility> getAbilities() { return new HashSet<>(abilities); }
     public Set<StatusEffect> getStatusEffects() { return new HashSet<>(statusEffects); }
     public Set<EquipmentRestriction> getEquipmentRestrictions() { return new HashSet<>(equipmentRestrictions); }
@@ -99,6 +108,8 @@ public class FF6Character {
     public void setCanEquipEspers(boolean canEquipEspers) { this.canEquipEspers = canEquipEspers; }
     public void setCanGrow(boolean canGrow) { this.canGrow = canGrow; }
     public void setAIControlled(boolean aiControlled) { this.isAIControlled = aiControlled; }
+    public void setMaxHp(int maxHp) { this.maxHp = maxHp; }
+    public void setMagicPower(int magicPower) { this.currentMagicPower = magicPower; }
 
     // Methods to manage abilities
     public void addAbility(CharacterAbility ability) {
@@ -124,6 +135,14 @@ public class FF6Character {
 
     public boolean hasStatusEffect(StatusEffect effect) {
         return this.statusEffects.contains(effect);
+    }
+
+    public void clearAllStatusEffects() {
+        this.statusEffects.clear();
+    }
+
+    public boolean hasAnyStatusEffect() {
+        return !this.statusEffects.isEmpty();
     }
 
 

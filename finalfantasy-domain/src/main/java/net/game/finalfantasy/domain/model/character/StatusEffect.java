@@ -20,6 +20,7 @@ public enum StatusEffect {
     REGEN,      // 再生狀態 (持續回復HP)
     IMAGE,      // 幻影狀態 (迴避一次物理攻擊)
     VANISH,     // 隱形狀態 (迴避物理攻擊，但魔法必中)
+    QUICK,      // 快速狀態 (可連續行動兩次)
 
     // 負面狀態
     POISON,     // 中毒狀態 (持續損失HP)

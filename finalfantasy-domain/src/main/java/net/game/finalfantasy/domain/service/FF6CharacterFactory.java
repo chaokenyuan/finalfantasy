@@ -121,4 +121,12 @@ public class FF6CharacterFactory {
     public static FF6Character createEnemy(int defense) {
         return new FF6Character("Enemy", 1, 100, defense, 0);
     }
+
+    /**
+     * 創建測試用角色
+     * @return 測試角色
+     */
+    public static FF6Character createTestCharacter() {
+        return new FF6Character("TestCharacter", 10, 1000, 50, 100, 50);
+    }
 }

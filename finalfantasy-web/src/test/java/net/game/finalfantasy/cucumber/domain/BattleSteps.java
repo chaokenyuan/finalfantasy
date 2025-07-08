@@ -7,6 +7,7 @@ import io.cucumber.java.en.And;
 import net.game.finalfantasy.domain.model.character.FF6Character;
 import net.game.finalfantasy.domain.model.character.StatusEffect;
 import net.game.finalfantasy.domain.model.character.Equipment;
+import net.game.finalfantasy.domain.service.StatusEffectService;
 import java.util.Arrays;
 
 /**
@@ -15,6 +16,7 @@ import java.util.Arrays;
 public class BattleSteps {
 
     private final SharedGameState gameState = SharedGameState.getInstance();
+    private final StatusEffectService statusEffectService = new StatusEffectService();
 
     // ========== ATB 相關 ==========
 
@@ -991,16 +993,47 @@ public class BattleSteps {
         System.out.println(String.format("[DEBUG_LOG] ATB max value set to: %d", maxAtb));
     }
 
-    @When("計算不同狀態下的有效ATB速度")
-    public void 計算不同狀態下的有效atb速度() {
-        // 模擬ATB速度計算
-        System.out.println("[DEBUG_LOG] Calculating effective ATB speed under different statuses");
+    @When("計算ATB增量")
+    public void 計算atb增量() {
+        // 計算基礎ATB增量
+        System.out.println("[DEBUG_LOG] Calculating base ATB increment");
     }
 
-    @Then("應得到以下ATB結果")
-    public void shouldGetAtbResults(io.cucumber.datatable.DataTable dataTable) {
-        // 驗證ATB結果
-        System.out.println("[DEBUG_LOG] Verifying ATB results");
+    @Then("基礎ATB增量公式為 {string}")
+    public void 基礎atb增量公式為(String formula) {
+        // 驗證基礎ATB增量公式
+        System.out.println("[DEBUG_LOG] Base ATB increment formula: " + formula);
+    }
+
+    @Then("當 {string} 時角色可以行動")
+    public void 當_時角色可以行動(String condition) {
+        // 驗證行動條件
+        System.out.println("[DEBUG_LOG] Character can act when: " + condition);
+    }
+
+    @Given("角色的基礎ATB增量為 {int}")
+    public void 角色的基礎atb增量為(Integer baseIncrement) {
+        // 設置基礎ATB增量
+        gameState.setAtbSpeed(baseIncrement);
+        System.out.println("[DEBUG_LOG] Base ATB increment set to: " + baseIncrement);
+    }
+
+    @When("角色受到狀態效果影響")
+    public void 角色受到狀態效果影響() {
+        // 應用狀態效果影響
+        FF6Character character = gameState.getCurrentCharacter();
+        if (character != null) {
+            double modifier = statusEffectService.getAtbModifier(character);
+            gameState.applyAtbModifier(modifier);
+            System.out.println("[DEBUG_LOG] Status effect applied, ATB modifier: " + modifier);
+        }
+    }
+
+    @Then("應根據狀態效果修正ATB增量")
+    public void 應根據狀態效果修正atb增量(io.cucumber.datatable.DataTable dataTable) {
+        // 驗證ATB修正結果
+        System.out.println("[DEBUG_LOG] Verifying ATB modifier results");
+        // 可以在這裡添加具體的驗證邏輯
     }
 
     // ========== 更多戰鬥相關步驟 ==========
@@ -1024,40 +1057,6 @@ public class BattleSteps {
         System.out.println("[DEBUG_LOG] Verifying special battle start conditions");
     }
 
-    @Given("角色的最大HP為 {int}，魔力為 {int}")
-    public void 角色的最大hp為_魔力為(Integer maxHp, Integer magicPower) {
-        FF6Character character = gameState.getCurrentCharacter();
-        if (character == null) {
-            character = new FF6Character("Player", 50, maxHp, 100, 100, 40);
-            gameState.setCurrentCharacter(character);
-        }
-        gameState.setMagicPower(magicPower);
-        System.out.println(String.format("[DEBUG_LOG] Character max HP: %d, magic power: %d", maxHp, magicPower));
-    }
-
-    @When("角色處於持續性狀態")
-    public void 角色處於持續性狀態() {
-        // 模擬角色處於持續性狀態
-        System.out.println("[DEBUG_LOG] Character in persistent status");
-    }
-
-    @Then("每回合開始時，根據狀態產生效果")
-    public void 每回合開始時_根據狀態產生效果(io.cucumber.datatable.DataTable dataTable) {
-        // 驗證持續性狀態效果
-        System.out.println("[DEBUG_LOG] Verifying persistent status effects at turn start");
-    }
-
-    @When("角色處於控制型狀態")
-    public void 角色處於控制型狀態() {
-        // 模擬角色處於控制型狀態
-        System.out.println("[DEBUG_LOG] Character in control status");
-    }
-
-    @Then("其行動會受到影響")
-    public void 其行動會受到影響(io.cucumber.datatable.DataTable dataTable) {
-        // 驗證控制型狀態對行動的影響
-        System.out.println("[DEBUG_LOG] Verifying control status effects on actions");
-    }
 
     @Given("角色的HP低於其最大HP的 {int}\\/{int}")
     public void 角色的hp低於其最大hp的(Integer numerator, Integer denominator) {
@@ -1144,17 +1143,6 @@ public class BattleSteps {
         System.out.println("[DEBUG_LOG] Base damage formula: " + formula);
     }
 
-    @When("角色處於特殊戰鬥狀態")
-    public void characterInSpecialBattleStatus() {
-        // 設置角色處於特殊戰鬥狀態
-        System.out.println("[DEBUG_LOG] Character is in special battle status");
-    }
-
-    @Then("根據狀態獲得相應效果")
-    public void effectsBasedOnStatus(io.cucumber.datatable.DataTable dataTable) {
-        // 驗證特殊狀態效果
-        System.out.println("[DEBUG_LOG] Verifying special status effects");
-    }
 
     @When("角色裝備了特殊裝備")
     public void characterEquippedSpecialEquipment() {
@@ -1226,165 +1214,7 @@ public class BattleSteps {
         System.out.println("[DEBUG_LOG] Verifying different effects based on situations");
     }
 
-    // ========== 魔法相關步驟 ==========
 
-    @When("施法者對其施放魔法")
-    public void casterCastsMagicOnTarget() {
-        // 施法者對目標施放魔法
-        System.out.println("[DEBUG_LOG] Caster casts magic on target");
-    }
-
-    @Then("根據魔法類型決定效果")
-    public void effectsDeterminedByMagicType(io.cucumber.datatable.DataTable dataTable) {
-        // 根據魔法類型決定效果
-        System.out.println("[DEBUG_LOG] Determining effects based on magic type");
-    }
-
-    @When("施放魔法時，根據不同條件計算命中率")
-    public void calculateMagicHitRate() {
-        // 計算魔法命中率
-        System.out.println("[DEBUG_LOG] Calculating magic hit rate under different conditions");
-    }
-
-    @Then("應套用以下公式")
-    public void applyFormula(io.cucumber.datatable.DataTable dataTable) {
-        // 驗證公式套用
-        System.out.println("[DEBUG_LOG] Verifying formula application");
-    }
-
-    // ========== 灰魔法相關步驟 ==========
-
-    @Given("使用者是時空魔法師")
-    public void userIsTimeSpaceMage() {
-        // 設置使用者為時空魔法師
-        System.out.println("[DEBUG_LOG] User is a time-space mage");
-    }
-
-    @Then("將單一目標傳送至異空間，使其直接從戰鬥中消失")
-    public void singleTargetTeleportedToAnotherDimension() {
-        // 單一目標被傳送至異空間
-        System.out.println("[DEBUG_LOG] Single target is teleported to another dimension and disappears from battle");
-    }
-
-    @Then("對頭目無效")
-    public void ineffectiveAgainstBosses() {
-        // 對頭目無效
-        System.out.println("[DEBUG_LOG] Ineffective against bosses");
-    }
-
-    @Then("成功率受目標抗性影響")
-    public void successRateAffectedByTargetResistance() {
-        // 成功率受目標抗性影響
-        System.out.println("[DEBUG_LOG] Success rate is affected by target resistance");
-    }
-
-    @Given("敵人的 {string} 為 {int}")
-    public void enemyAttributeIs(String attribute, Integer value) {
-        FF6Character enemy = gameState.getEnemy();
-        if (enemy == null) {
-            enemy = new FF6Character("Enemy", 50, value, 100, 100, 40);
-            gameState.setEnemy(enemy);
-        }
-        // 設置敵人屬性
-        System.out.println("[DEBUG_LOG] Enemy " + attribute + " set to: " + value);
-    }
-
-    @Then("此傷害無法直接擊敗敵人")
-    public void damageCannotDirectlyDefeatEnemy() {
-        // 驗證傷害無法直接擊敗敵人
-        System.out.println("[DEBUG_LOG] This damage cannot directly defeat the enemy");
-    }
-
-    // ========== ATB速度公式相關步驟 ==========
-
-    @Then("目標的ATB速度公式為 {string}")
-    public void targetAtbSpeedFormulaIs(String formula) {
-        // 驗證目標ATB速度公式
-        System.out.println("[DEBUG_LOG] Target ATB speed formula: " + formula);
-    }
-
-    @Then("所有隊友進入 {string} 狀態")
-    public void allAlliesEnterStatus(String statusName) {
-        // 所有隊友進入指定狀態
-        System.out.println("[DEBUG_LOG] All allies enter " + statusName + " status");
-    }
-
-    // ========== 更多灰魔法相關步驟 ==========
-
-    @Then("對所有敵人造成基於其最大HP百分比的傷害")
-    public void dealDamageBasedOnMaxHpPercentage() {
-        // 對所有敵人造成基於最大HP百分比的傷害
-        System.out.println("[DEBUG_LOG] Deals damage to all enemies based on percentage of their max HP");
-    }
-
-    @Then("使用者可立即連續行動兩回合")
-    public void 使用者可立即連續行動兩回合() {
-        // 模擬使用者可以連續行動兩回合
-        System.out.println("[DEBUG_LOG] User can act twice consecutively");
-    }
-
-    @Then("在此效果持續期間，使用者無法再次施放 {string}")
-    public void 在此效果持續期間_使用者無法再次施放(String spellName) {
-        // 模擬在效果持續期間無法再次施放指定魔法
-        System.out.println(String.format("[DEBUG_LOG] User cannot cast %s again during this effect", spellName));
-    }
-
-    @Then("目標無法行動且ATB停止累積，持續數秒")
-    public void 目標無法行動且atb停止累積_持續數秒() {
-        // 模擬目標無法行動且ATB停止累積
-        FF6Character target = gameState.getEnemy();
-        if (target != null) {
-            target.addStatusEffect(StatusEffect.STOP);
-        }
-        System.out.println("[DEBUG_LOG] Target cannot act and ATB stops accumulating for several seconds");
-    }
-
-    @Then("在迷宮中，使用者可直接離開地圖")
-    public void 在迷宮中_使用者可直接離開地圖() {
-        // 模擬在迷宮中直接離開地圖
-        System.out.println("[DEBUG_LOG] In dungeons, user can directly leave the map");
-    }
-
-    @Then("在戰鬥中，使用者可強制結束戰鬥，部分戰鬥無效")
-    public void 在戰鬥中_使用者可強制結束戰鬥_部分戰鬥無效() {
-        // 模擬在戰鬥中強制結束戰鬥
-        System.out.println("[DEBUG_LOG] In battle, user can force end battle, some battles are invalid");
-    }
-
-    @Then("目標進入 {string} 狀態，物理攻擊無法命中")
-    public void 目標進入_狀態_物理攻擊無法命中(String statusName) {
-        // 模擬目標進入透明狀態
-        FF6Character target = gameState.getEnemy();
-        if (target != null) {
-            StatusEffect status = getStatusEffectByName(statusName);
-            target.addStatusEffect(status);
-        }
-        System.out.println(String.format("[DEBUG_LOG] Target enters %s status, physical attacks cannot hit", statusName));
-    }
-
-    @Then("必中魔法（包含即死效果）仍會命中")
-    public void 必中魔法_包含即死效果_仍會命中() {
-        // 模擬必中魔法仍會命中
-        System.out.println("[DEBUG_LOG] Sure-hit magic (including instant death effects) still hits");
-    }
-
-    @Then("將所有敵人傳送至異空間，使其直接從戰鬥中消失")
-    public void 將所有敵人傳送至異空間_使其直接從戰鬥中消失() {
-        // 模擬將所有敵人傳送至異空間
-        FF6Character enemy = gameState.getEnemy();
-        if (enemy != null) {
-            enemy.addStatusEffect(StatusEffect.KO);
-        }
-        System.out.println("[DEBUG_LOG] All enemies banished to another dimension and removed from battle");
-    }
-
-    // ========== 傷害公式相關步驟 ==========
-
-    @Then("傷害公式為 {string}")
-    public void 傷害公式為(String formula) {
-        // 驗證傷害公式（用於灰魔法等）
-        System.out.println(String.format("[DEBUG_LOG] Damage formula verified: %s", formula));
-    }
 
     // ========== 角色特定步驟 ==========
 
