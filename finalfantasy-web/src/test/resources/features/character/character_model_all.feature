@@ -1,4 +1,4 @@
-# language: zh-TW
+
 Feature: FF6 全角色資料模型定義
 
   作為一位模擬 FF6 戰鬥系統的開發者

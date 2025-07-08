@@ -1,4 +1,3 @@
-# language: zh-TW
 Feature: FF6 白魔法（White Magic）效果與計算公式
 
   白魔法著重於回復、強化與輔助效果，包含治癒、復活、異常狀態解除與防護類魔法。

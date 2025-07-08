@@ -1,4 +1,4 @@
-# language: zh-TW
+
 Feature: FF6 黑魔法（Black Magic）效果與計算公式
 
   黑魔法主要用於造成傷害，涵蓋火焰、冰霜、雷電、無屬性與強力單體攻擊。

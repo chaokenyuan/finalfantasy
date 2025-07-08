@@ -1,4 +1,4 @@
-# language: zh-TW
+
 Feature: FF6 物理傷害計算（角色：Locke）
 
   作為一位模擬 Final Fantasy VI 戰鬥系統的開發者

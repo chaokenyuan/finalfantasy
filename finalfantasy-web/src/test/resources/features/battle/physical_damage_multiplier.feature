@@ -1,4 +1,3 @@
-# language: zh-TW
 Feature: FF6 物理攻擊的傷害倍率計算
 
   作為一位模擬 FF6 傷害計算的開發者

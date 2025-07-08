@@ -1,4 +1,4 @@
-# language: zh-TW
+
 Feature: FF6 青魔法（Blue Magic）效果與計算公式
 
   青魔法來源於敵人技能，具備獨特效果與條件發動限制，
