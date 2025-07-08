@@ -11,7 +11,7 @@ Scenario: ATB 速度與狀態效果
   Given 角色的基礎速度為 40
   And ATB上限值為 65535
   When 計算不同狀態下的有效ATB速度
-  Then 應得到以下結果
+  Then 應得到以下ATB結果
     | 狀態   | ATB增量公式             | 行動觸發條件      |
     | 無     | atb_increase = speed    | atb >= atbMax     |
     | HASTE  | atb_increase = speed * 1.5 | atb >= atbMax     |
