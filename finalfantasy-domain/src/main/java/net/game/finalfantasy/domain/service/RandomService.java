@@ -14,6 +14,10 @@ public class RandomService {
         this.random = new Random(seed);
     }
     
+    public int nextInt(int bound) {
+        return random.nextInt(bound);
+    }
+    
     public boolean rollCriticalHit(int numerator, int denominator) {
         int roll = random.nextInt(denominator) + 1;
         return roll <= numerator;
