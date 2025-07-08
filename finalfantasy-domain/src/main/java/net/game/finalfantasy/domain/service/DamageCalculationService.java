@@ -99,6 +99,15 @@ public class DamageCalculationService {
     }
     
     /**
+     * 公開的致命一擊判定方法
+     * @param attacker 攻擊者 (目前未使用，但為了與介面一致)
+     * @return true 如果觸發致命一擊
+     */
+    public boolean isCriticalHit(FF6Character attacker) {
+        return isCriticalHit();
+    }
+    
+    /**
      * 設定致命一擊觸發（用於測試）
      * @param shouldTrigger 是否觸發致命一擊
      */

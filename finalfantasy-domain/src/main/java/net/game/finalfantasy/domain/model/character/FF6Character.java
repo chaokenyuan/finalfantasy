@@ -170,4 +170,20 @@ public class FF6Character {
         }
         return effectiveBattlePower;
     }
+    
+    /**
+     * Check if character is defeated (has KO status)
+     */
+    public boolean isDefeated() {
+        return hasStatusEffect(StatusEffect.KO);
+    }
+    
+    /**
+     * Check if character can act (not affected by disabling status effects)
+     */
+    public boolean canAct() {
+        return !hasStatusEffect(StatusEffect.KO) &&
+               !hasStatusEffect(StatusEffect.SLEEP) &&
+               !hasStatusEffect(StatusEffect.STOP);
+    }
 }

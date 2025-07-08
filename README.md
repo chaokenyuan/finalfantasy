@@ -1,6 +1,6 @@
 # Final Fantasy Game System
 
-A comprehensive full-stack system for a Final Fantasy-style game, featuring a Spring Boot backend with hexagonal architecture and a modern React frontend.
+A Spring Boot backend system for a Final Fantasy-style game, built with hexagonal architecture and featuring both Spring Boot and Vert.x servers.
 
 ## 🌐 Language / 語言
 
@@ -9,179 +9,138 @@ A comprehensive full-stack system for a Final Fantasy-style game, featuring a Sp
 
 ## 🎮 Project Overview
 
-This project provides a complete full-stack solution for managing heroes, equipment, and game mechanics in a Final Fantasy-inspired game. The backend is designed with clean architecture principles, separating concerns across multiple modules and providing both REST APIs and real-time communication capabilities. The frontend offers a modern React-based web interface with intuitive hero management and real-time game status monitoring.
+This project provides a backend system for managing heroes, equipment, and game mechanics in a Final Fantasy-inspired game. The backend is designed with clean architecture principles, separating concerns across multiple modules and providing both Spring Boot REST capabilities and Vert.x-based real-time communication.
 
 ## 🏗️ Architecture
 
-The project follows **Hexagonal Architecture** (Ports and Adapters) for the backend with a modern React frontend:
+The project follows **Hexagonal Architecture** (Ports and Adapters) pattern:
 
 ### Backend Modules
 - **`finalfantasy-domain`** - Core business logic and domain models
-- **`finalfantasy-application`** - Application services and use cases
-- **`finalfantasy-infrastructure`** - External adapters (web controllers, repositories, external services)
-- **`finalfantasy-web`** - Main application entry point and web configuration
-
-### Frontend Module
-- **`finalfantasy-frontend`** - React-based web application with modern UI components
+- **`finalfantasy-application`** - Application services and use cases (currently empty, ready for implementation)
+- **`finalfantasy-infrastructure`** - External adapters (Vert.x servers, configuration, DTOs)
+- **`finalfantasy-web`** - Main Spring Boot application entry point
 
 ## 🚀 Features
 
 ### Core Game Features
-- **Hero Management**: Create, retrieve, and manage heroes with different types (Warrior, Mage, etc.)
-- **Equipment System**: Equip and manage various items (weapons, armor, accessories)
-- **Stats System**: Dynamic stat calculation based on hero type and equipped items
-- **Game Rules Validation**: Business rule enforcement for game mechanics
+- **Hero Management**: Rich domain models for heroes with different types (Warrior, Mage, etc.)
+- **Equipment System**: Comprehensive equipment models (weapons, armor, accessories)
+- **Stats System**: Hero stats calculation and management
+- **Magic System**: Magic spells with different elements and types
+- **Character System**: FF6-style character models with abilities and restrictions
 
-### Frontend Features
-- **Modern React UI**: Responsive web interface with intuitive design
-- **Hero Management Interface**: Create, search, and manage heroes with visual feedback
-- **Equipment Management**: Interactive equipment system with drag-and-drop functionality
-- **Real-time Status Monitoring**: Live game server status and health monitoring
-- **Chinese Localization**: Complete Traditional Chinese interface
-- **Responsive Design**: Mobile and desktop optimized layouts
+### Domain Models
+- **Heroes**: Hero types, equipment slots, and stats
+- **Equipment**: Various equipment types with restrictions
+- **Magic**: Spells, elements (Fire, Ice, Lightning, etc.), and magic types
+- **Characters**: FF6 characters with abilities, attack types, and battle positions
+- **Game Mechanics**: Damage calculation, multipliers, and random services
 
-### Backend Technical Features
-- **REST API** with Swagger/OpenAPI documentation
-- **gRPC Services** for high-performance communication
-- **Vert.x HTTP Server** for additional game-specific endpoints
-- **Real-time Socket Communication** via Vert.x
-- **Multi-environment Configuration** (local, SIT, UAT, production)
-- **Comprehensive Testing** with Cucumber BDD tests
-- **Interactive API Documentation**: Test Spring Boot endpoints directly from Swagger UI
-- **Multi-Server Architecture**: Spring Boot for REST APIs, Vert.x for high-performance operations
-- **Real-time Game Actions**: Vert.x endpoints for real-time game processing
-- **Health Monitoring**: Multiple health check endpoints across services
+### Technical Features
+- **Vert.x HTTP Server**: High-performance HTTP endpoints for game actions
+- **Real-time Socket Communication**: Vert.x-based socket server
+- **Multi-environment Configuration**: Support for local, SIT, UAT, and production environments
+- **Health Monitoring**: Health check endpoints
+- **Game Status API**: Real-time game status monitoring
+- **Docker Support**: Docker Compose configuration for MySQL database
 
 ## 🛠️ Technology Stack
-
-### Frontend
-- **React 18** - Modern frontend framework
-- **React Router** - Single-page application routing
-- **Axios** - HTTP client for API communication
-- **CSS Grid/Flexbox** - Responsive layout system
-- **ES6+** - Modern JavaScript features
 
 ### Backend
 - **Java 17**
 - **Spring Boot 3.5.3**
-- **Spring gRPC**
-- **Vert.x 4.5.10** - For high-performance HTTP and socket servers
-- **H2 Database** - In-memory database for development and testing
+- **Vert.x 4.5.10** - High-performance HTTP and socket servers
+- **H2 Database** - In-memory database for development
+- **MySQL** - Production database via Docker Compose
 - **Spring Data JPA** - Data persistence layer
 - **Spring Batch** - Batch processing capabilities
-- **Spring WebSocket** - Real-time communication support
 - **Spring Mail** - Email functionality
 - **Spring Web Services** - SOAP web services support
-- **Docker Compose** - Container orchestration support
-- **Swagger/OpenAPI** - API documentation (`springdoc-openapi-starter-webmvc-ui` version 2.2.0)
+- **Spring WebSocket** - WebSocket support
+- **Swagger/OpenAPI** - API documentation support
 - **Cucumber** - Behavior-driven testing
 - **Lombok** - Code generation
 - **Maven** - Build tool
 
 ## 📋 Prerequisites
 
-### Backend
 - Java 17 or higher
 - Maven 3.6+
+- Docker and Docker Compose (for MySQL database)
 - IDE with Lombok support (IntelliJ IDEA, Eclipse, VS Code)
-
-### Frontend
-- Node.js 16+ 
-- npm or yarn
 
 ## 🚀 Quick Start
 
-### 1. Clone and Build Backend
+### 1. Clone and Build
 ```bash
 git clone <repository-url>
 cd finalfantasy
 mvn clean install
 ```
 
-### 2. Run the Backend
+### 2. Run the Application
 ```bash
-# Default (local environment)
+# Default (local environment with H2 database)
 mvn spring-boot:run
 
 # Or with specific profile
 mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
-### 3. Setup and Run Frontend
+### 3. Run with MySQL Database
 ```bash
-# In a new terminal window
-cd finalfantasy-frontend
-npm install
-npm start
+# Start MySQL with Docker Compose
+docker-compose up -d
+
+# Run application with production profile
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
 ```
 
-### 4. Access the Application
+## 🌐 Server Endpoints
 
-#### Frontend Web Application
-- **Main Application**: http://localhost:3000
-- **Hero Management**: http://localhost:3000/ (default page)
-- **Game Status**: http://localhost:3000/status
+The application runs multiple servers on different ports:
 
-#### Backend APIs
+### Spring Boot Server (Port 8080)
+- **Main Application**: `http://localhost:8080`
+- **H2 Console**: `http://localhost:8080/h2-console` (local profile only)
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html` (when implemented)
 
-#### REST API & Swagger UI
-- **Swagger UI**: http://localhost:8080/swagger-ui/index.html
-- **OpenAPI Docs**: http://localhost:8080/v3/api-docs
-- **Health Check**: http://localhost:8080/api/game/health
+### Vert.x HTTP Server (Port 8081)
+- **Health Check**: `GET http://localhost:8081/vertx/health`
+- **Game Status**: `GET http://localhost:8081/vertx/game/status`
+- **Game Actions**: `POST http://localhost:8081/vertx/game/action`
 
-#### Vert.x HTTP Server
-- **Base URL**: http://localhost:8081
-- **Health Check**: http://localhost:8081/vertx/health
+### Vert.x Socket Server (Port 8082)
+- **WebSocket**: `ws://localhost:8082` (for real-time communication)
 
-#### gRPC Server
-- **Port**: 9090 (when enabled)
+### gRPC Server (Port 9090)
+- **gRPC Services**: `localhost:9090` (configured but not implemented)
 
-#### Socket Server
-- **Port**: 8082 (TCP connection)
 
-## 🎯 API Usage Examples
-
-### Create a Hero
-```bash
-curl -X POST http://localhost:8080/api/heroes \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Cloud", "heroType": "WARRIOR"}'
-```
-
-### Get Hero Information
-```bash
-curl http://localhost:8080/api/heroes/Cloud
-```
-
-### Equip an Item
-```bash
-curl -X POST http://localhost:8080/api/heroes/Cloud/equip \
-  -H "Content-Type: application/json" \
-  -d '{"equipmentName": "Buster Sword"}'
-```
 
 ## 🔧 Configuration
 
-The application supports multiple environments with different port configurations:
+### Environment Profiles
+- **local** - H2 in-memory database, development settings
+- **sit** - System Integration Testing environment
+- **uat** - User Acceptance Testing environment
+- **prod** - Production environment with MySQL
 
-| Environment | HTTP Port | gRPC Port | Vert.x HTTP | Vert.x Socket |
-|-------------|-----------|-----------|-------------|---------------|
-| Local       | 8080      | 9090      | 8081        | 8082          |
-| SIT         | 8180      | 9190      | 8181        | 8182          |
-| UAT         | 8280      | 9290      | 8281        | 8282          |
-| Production  | 8080      | 9090      | 8081        | 8082          |
-
-### Running with Different Profiles
-```bash
-# SIT Environment
-java -jar finalfantasy-web/target/finalfantasy-web-0.0.1-SNAPSHOT.jar --spring.profiles.active=sit
-
-# UAT Environment
-java -jar finalfantasy-web/target/finalfantasy-web-0.0.1-SNAPSHOT.jar --spring.profiles.active=uat
-
-# Production Environment
-java -jar finalfantasy-web/target/finalfantasy-web-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+### Server Ports Configuration
+```yaml
+finalfantasy:
+  server:
+    http:
+      port: 8080        # Spring Boot server
+    grpc:
+      port: 9090        # gRPC server
+      enabled: true
+    vertx:
+      http-port: 8081   # Vert.x HTTP server
+      socket-port: 8082 # Vert.x Socket server
 ```
+
 
 ## 🧪 Testing
 
@@ -404,140 +363,69 @@ System monitoring and health check endpoints:
 
 ```
 finalfantasy/
-├── finalfantasy-domain/          # Domain models and business logic
-│   ├── src/main/java/
-│   │   └── net/game/finalfantasy/domain/
-│   │       ├── model/            # Domain entities (Hero, Equipment, Stats)
-│   │       └── service/          # Domain services (Factories)
-│   └── src/test/                 # Domain tests
-├── finalfantasy-application/     # Application services and use cases
-│   ├── src/main/java/
-│   │   └── net/game/finalfantasy/application/
-│   │       ├── port/             # Ports (interfaces)
-│   │       └── service/          # Application services
-│   └── src/test/                 # Application tests
-├── finalfantasy-infrastructure/  # External adapters and infrastructure
-│   ├── src/main/java/
-│   │   └── net/game/finalfantasy/infrastructure/
-│   │       ├── adapter/          # Web controllers, repositories
-│   │       └── config/           # Configuration classes
-│   └── src/test/                 # Infrastructure tests and Cucumber features
-├── finalfantasy-web/            # Main application and web configuration
-│   ├── src/main/java/
-│   │   └── net/game/finalfantasy/
-│   │       └── FinalFantasyApplication.java
-│   ├── src/main/resources/       # Application configuration files
-│   └── src/test/                 # Integration tests and Cucumber BDD tests
-│       └── java/net/game/finalfantasy/cucumber/
-│           ├── domain/           # Domain-specific test steps
-│           ├── CucumberSpringConfiguration.java
-│           ├── CucumberTestRunner.java
-│           └── TestConfiguration.java
-├── compose.yaml                 # Docker Compose configuration
-└── pom.xml                      # Parent POM configuration
+├── finalfantasy-domain/           # Core business logic
+│   ├── model/
+│   │   ├── character/            # FF6 characters, abilities, types
+│   │   ├── equipment/            # Equipment models
+│   │   ├── hero/                 # Hero models and types
+│   │   ├── magic/                # Magic spells and elements
+│   │   └── stats/                # Hero statistics
+│   └── service/                  # Domain services
+├── finalfantasy-application/      # Application layer (empty, ready for use cases)
+├── finalfantasy-infrastructure/   # External adapters
+│   ├── adapter/
+│   │   ├── in/
+│   │   │   ├── vertx/           # Vert.x HTTP and Socket servers
+│   │   │   └── web/             # Web DTOs
+│   │   └── out/                 # External service adapters (future)
+│   └── config/                  # Configuration classes
+├── finalfantasy-web/             # Main application
+│   ├── src/main/java/           # Spring Boot application
+│   └── src/main/resources/      # Configuration files
+├── compose.yaml                  # Docker Compose for MySQL
+└── pom.xml                      # Maven parent configuration
 ```
 
-## ⚙️ Detailed Configuration
+## 🔮 Future Development
 
-### Environment-Specific Port Configuration
+The project is structured to support future enhancements:
 
-The application supports environment-specific port configurations through YAML files. The following servers can be configured:
+### Planned Features
+- **REST API Controllers**: Spring MVC controllers for CRUD operations
+- **gRPC Services**: High-performance gRPC service implementations
+- **Application Services**: Use case implementations in the application layer
+- **Data Persistence**: JPA entities and repositories
+- **Frontend Integration**: API endpoints for frontend consumption
+- **Authentication & Authorization**: Security layer implementation
+- **Real-time Game Features**: Enhanced Vert.x-based real-time functionality
 
-1. **Spring Boot HTTP Server** - Main REST API server
-2. **gRPC Server** - For gRPC services
-3. **Vert.x HTTP Server** - Additional HTTP server for game-specific endpoints
-4. **Vert.x Socket Server** - TCP socket server for real-time communication
+### Architecture Extensions
+- **CQRS Pattern**: Command and Query separation
+- **Event Sourcing**: Event-driven architecture
+- **Microservices**: Service decomposition
+- **API Gateway**: Centralized API management
 
-### Supported Environments
+## 🤝 Contributing
 
-- **local** - Local development environment
-- **sit** - System Integration Test environment
-- **uat** - User Acceptance Test environment
-- **prod** - Production environment
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### Environment Configuration Files
+## 📝 License
 
-#### Local Environment (application-local.yml)
-```yaml
-finalfantasy:
-  server:
-    http:
-      port: 8080        # Spring Boot HTTP
-    grpc:
-      port: 9090        # gRPC Server
-      enabled: true
-    vertx:
-      http-port: 8081   # Vert.x HTTP Server
-      socket-port: 8082 # Vert.x Socket Server
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-#### SIT Environment (application-sit.yml)
-```yaml
-finalfantasy:
-  server:
-    http:
-      port: 8180        # Spring Boot HTTP
-    grpc:
-      port: 9190        # gRPC Server
-      enabled: true
-    vertx:
-      http-port: 8181   # Vert.x HTTP Server
-      socket-port: 8182 # Vert.x Socket Server
-```
+## 📞 Support
 
-#### UAT Environment (application-uat.yml)
-```yaml
-finalfantasy:
-  server:
-    http:
-      port: 8280        # Spring Boot HTTP
-    grpc:
-      port: 9290        # gRPC Server
-      enabled: true
-    vertx:
-      http-port: 8281   # Vert.x HTTP Server
-      socket-port: 8282 # Vert.x Socket Server
-```
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
 
-#### Production Environment (application-prod.yml)
-```yaml
-finalfantasy:
-  server:
-    http:
-      port: 8080        # Spring Boot HTTP
-    grpc:
-      port: 9090        # gRPC Server
-      enabled: true
-    vertx:
-      http-port: 8081   # Vert.x HTTP Server
-      socket-port: 8082 # Vert.x Socket Server
-```
+---
 
-### Running with Different Profiles
-
-#### Using Spring Profiles
-
-1. **Local Environment (default)**:
-   ```bash
-   java -jar finalfantasy.jar
-   # or
-   java -jar finalfantasy.jar --spring.profiles.active=local
-   ```
-
-2. **SIT Environment**:
-   ```bash
-   java -jar finalfantasy.jar --spring.profiles.active=sit
-   ```
-
-3. **UAT Environment**:
-   ```bash
-   java -jar finalfantasy.jar --spring.profiles.active=uat
-   ```
-
-4. **Production Environment**:
-   ```bash
-   java -jar finalfantasy.jar --spring.profiles.active=prod
-   ```
+**Note**: This project is currently in active development. The domain layer contains rich game models and business logic, while the infrastructure and application layers are being developed to support full game functionality.
 
 #### Using Environment Variables
 
