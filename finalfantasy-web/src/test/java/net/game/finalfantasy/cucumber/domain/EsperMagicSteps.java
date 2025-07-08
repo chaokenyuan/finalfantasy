@@ -26,19 +26,19 @@ public class EsperMagicSteps {
     }
     
     @Given("幻獸已被召喚")
-    public void 幻獸已被召喚() {
+    public void esperHasBeenSummoned() {
         esperSummoned = true;
     }
     
     @Given("幻獸為 {string}")
-    public void 幻獸為(String esperName) {
+    public void esperIs(String esperName) {
         currentEsper = EsperFactory.createEsper(esperName);
         assertNotNull(currentEsper, "Esper should be created successfully");
         assertEquals(esperName, currentEsper.getName(), "Esper name should match");
     }
     
     @Given("幻獸的 {string} 為 {int}")
-    public void 幻獸的_為(String attribute, Integer value) {
+    public void esperAttributeIs(String attribute, Integer value) {
         assertNotNull(currentEsper, "Esper should be set before setting attributes");
         
         // Create a new esper with the specified attribute value
@@ -57,7 +57,7 @@ public class EsperMagicSteps {
     }
     
     @Given("隊伍中有 {int} 名已陣亡的隊友")
-    public void 隊伍中有_名已陣亡的隊友(Integer count) {
+    public void partyHasFallenAllies(Integer count) {
         party.clear();
         for (int i = 0; i < count; i++) {
             FF6Character character = FF6CharacterFactory.createCharacter("DefeatedAlly" + i, 1, 100, 50);
@@ -68,19 +68,19 @@ public class EsperMagicSteps {
     }
     
     @Then("傷害公式為 {string}")
-    public void 傷害公式為(String expectedFormula) {
+    public void damageFormulaIs(String expectedFormula) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(expectedFormula, currentEsper.getDamageFormula(), "Damage formula should match");
     }
     
     @Then("魔法學習列表為空")
-    public void 魔法學習列表為空() {
+    public void spellLearningListIsEmpty() {
         assertNotNull(currentEsper, "Esper should be set");
         assertTrue(currentEsper.hasEmptySpellLearningList(), "Spell learning list should be empty");
     }
     
     @Then("魔法學習列表為:")
-    public void 魔法學習列表為(DataTable dataTable) {
+    public void spellLearningListIs(DataTable dataTable) {
         assertNotNull(currentEsper, "Esper should be set");
         
         List<Map<String, String>> spells = dataTable.asMaps(String.class, String.class);
@@ -100,7 +100,7 @@ public class EsperMagicSteps {
     }
     
     @Then("復活所有已陣亡的隊友")
-    public void 復活所有已陣亡的隊友() {
+    public void reviveAllFallenAllies() {
         assertNotNull(currentEsper, "Esper should be set");
         assertTrue(esperSummoned, "Esper should be summoned");
         
@@ -118,43 +118,43 @@ public class EsperMagicSteps {
     }
     
     @Then("每位被復活隊友的回復HP公式為 {string}")
-    public void 每位被復活隊友的回復hp公式為(String expectedFormula) {
+    public void revivedAllyHealingFormulaIs(String expectedFormula) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(expectedFormula, currentEsper.getHealingFormula(), "Healing formula should match");
     }
     
     @Then("對所有隊友的回復HP公式為 {string}")
-    public void 對所有隊友的回復hp公式為(String expectedFormula) {
+    public void allAlliesHealingFormulaIs(String expectedFormula) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(expectedFormula, currentEsper.getHealingFormula(), "Healing formula should match");
     }
     
     @Then("對所有隊友施加 {string} 狀態")
-    public void 對所有隊友施加_狀態(String statusEffect) {
+    public void applyStatusToAllAllies(String statusEffect) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(statusEffect, currentEsper.getStatusEffect(), "Status effect should match");
     }
     
     @Then("對所有敵人施加 {string} 狀態")
-    public void 對所有敵人施加_狀態(String statusEffect) {
+    public void applyStatusToAllEnemies(String statusEffect) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(statusEffect, currentEsper.getStatusEffect(), "Status effect should match");
     }
     
     @Then("效果類型為 {string}")
-    public void 效果類型為(String effectType) {
+    public void effectTypeIs(String effectType) {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals(effectType, currentEsper.getEffectType(), "Effect type should match");
     }
     
     @Then("將敵人轉化為道具")
-    public void 將敵人轉化為道具() {
+    public void transformEnemyIntoItem() {
         assertNotNull(currentEsper, "Esper should be set");
         assertEquals("ItemTransformation", currentEsper.getEffectType(), "Effect should be item transformation");
     }
     
     @Then("轉化成功率為 {string}")
-    public void 轉化成功率為(String successRate) {
+    public void transformationSuccessRateIs(String successRate) {
         assertNotNull(currentEsper, "Esper should be set");
         // For now, we just verify the esper has the special effect type
         assertEquals("ItemTransformation", currentEsper.getEffectType(), "Should have item transformation effect");

@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CharacterModelSteps {
 
     @Given("遊戲中所有角色的基本屬性與特殊能力如下")
-    public void 遊戲中所有角色的基本屬性與特殊能力如下() {
+    public void allCharactersBasicAttributesAndAbilities() {
         // This step just sets up the context - no implementation needed
     }
 
     @Then("他們的角色模型應包含以下資訊")
-    public void 他們的角色模型應包含以下資訊(DataTable dataTable) {
+    public void characterModelsShouldContainInfo(DataTable dataTable) {
         List<Map<String, String>> characters = dataTable.asMaps(String.class, String.class);
         
         for (Map<String, String> characterData : characters) {

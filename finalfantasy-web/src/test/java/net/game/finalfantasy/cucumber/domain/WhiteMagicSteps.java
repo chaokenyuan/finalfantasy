@@ -22,12 +22,12 @@ public class WhiteMagicSteps {
     private String currentSpell;
 
     @Given("使用者是白魔法師")
-    public void 使用者是白魔法師() {
+    public void userIsWhiteMage() {
         caster = FF6CharacterFactory.createCharacter("WhiteMage", 25, 300, 50);
     }
 
     @Given("使用者的 {string} 為 {int}")
-    public void 使用者的_為(String attribute, Integer value) {
+    public void userAttributeIs(String attribute, Integer value) {
         if ("魔力".equals(attribute)) {
             magicPower = value;
             // Create a new character with the specified magic power
@@ -37,7 +37,7 @@ public class WhiteMagicSteps {
     }
 
     @Given("隊友 {string} 且最大HP為 {int}")
-    public void 隊友_且最大hp為(String status, Integer maxHP) {
+    public void allyStatusAndMaxHp(String status, Integer maxHP) {
         target = FF6CharacterFactory.createCharacter("Ally", 25, maxHP, 50);
         if ("死亡".equals(status)) {
             target.addStatusEffect(StatusEffect.KO);
@@ -45,7 +45,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("根據不同的治癒魔法，回復目標的生命值")
-    public void 根據不同的治癒魔法_回復目標的生命值(DataTable dataTable) {
+    public void healTargetBasedOnMagic(DataTable dataTable) {
         List<Map<String, String>> spells = dataTable.asMaps(String.class, String.class);
 
         for (Map<String, String> spellData : spells) {
@@ -77,7 +77,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("根據不同的復活魔法，使隊友復活")
-    public void 根據不同的復活魔法_使隊友復活(DataTable dataTable) {
+    public void reviveAllyBasedOnMagic(DataTable dataTable) {
         assertNotNull(target, "Target should be set");
         assertTrue(target.hasStatusEffect(StatusEffect.KO), "Target should be defeated");
 
@@ -103,7 +103,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("目標每回合回復的生命值公式為 {string}")
-    public void 目標每回合回復的生命值公式為(String expectedFormula) {
+    public void targetRegenFormulaIs(String expectedFormula) {
         assertEquals("healing_per_turn = floor(magicPower * 0.2)", expectedFormula);
 
         // Calculate expected regen healing
@@ -112,13 +112,13 @@ public class WhiteMagicSteps {
     }
 
     @And("效果持續數回合")
-    public void 效果持續數回合() {
+    public void effectLastsSeveralTurns() {
         // This step just confirms that Regen has duration - implementation would track this
         assertTrue(true, "Regen effect should have duration");
     }
 
     @Then("根據不同的魔法，解除目標的異常狀態")
-    public void 根據不同的魔法_解除目標的異常狀態(DataTable dataTable) {
+    public void removeStatusEffectsBasedOnMagic(DataTable dataTable) {
         List<Map<String, String>> spells = dataTable.asMaps(String.class, String.class);
 
         for (Map<String, String> spellData : spells) {
@@ -143,7 +143,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("根據不同的魔法，為目標提供增益效果")
-    public void 根據不同的魔法_為目標提供增益效果(DataTable dataTable) {
+    public void applyBuffsBasedOnMagic(DataTable dataTable) {
         List<Map<String, String>> spells = dataTable.asMaps(String.class, String.class);
 
         for (Map<String, String> spellData : spells) {
@@ -168,7 +168,7 @@ public class WhiteMagicSteps {
     }
 
     @When("對敵人施放 {string}")
-    public void 對敵人施放(String spellName) {
+    public void castSpellOnEnemy(String spellName) {
         currentSpell = spellName;
         target = FF6CharacterFactory.createCharacter("Enemy", 20, 500, 80);
         // Add some buffs to the enemy for Dispel to remove
@@ -178,7 +178,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("移除敵人的 {string}, {string}, {string} 等增益效果")
-    public void 移除敵人的_等增益效果(String buff1, String buff2, String buff3) {
+    public void removeEnemyBuffs(String buff1, String buff2, String buff3) {
         assertEquals("Dispel", currentSpell);
         assertNotNull(target, "Target should be set");
 
@@ -200,7 +200,7 @@ public class WhiteMagicSteps {
     }
 
     @Then("Holy的傷害公式為 {string}")
-    public void holy的傷害公式為(String expectedFormula) {
+    public void holyDamageFormulaIs(String expectedFormula) {
         assertEquals("damage = 150 * magicPower + random(0,15)", expectedFormula);
 
         // Calculate expected Holy damage
@@ -209,12 +209,12 @@ public class WhiteMagicSteps {
     }
 
     @And("傷害屬性為 {string}")
-    public void 傷害屬性為(String expectedAttribute) {
+    public void damageAttributeIs(String expectedAttribute) {
         assertEquals("神聖", expectedAttribute);
     }
 
     @And("對 {string} 敵人的傷害加倍")
-    public void 對_敵人的傷害加倍(String enemyType) {
+    public void doubleDamageToEnemyType(String enemyType) {
         assertEquals("不死系", enemyType);
         // This would be implemented in the damage calculation system
         assertTrue(true, "Holy should deal double damage to undead enemies");
