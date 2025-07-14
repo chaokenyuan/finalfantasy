@@ -22,3 +22,4 @@ Scenario: Gogo 的物理攻擊在不同條件下的傷害計算
     | 前排     | 後排     | 無       | 否       | damage = baseDamage * 0.5 |
     | 前排     | 前排     | SAFE     | 否       | damage = baseDamage * 170 / 256 |
     | 前排     | 前排     | 無       | 是       | damage = baseDamage * 2   |
+

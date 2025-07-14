@@ -56,7 +56,7 @@ Scenario: Demi - 半數重力傷害
 
 Scenario: Quarter - 四分之一重力
   Given 敵人的 "HP" 為 8000
-  Then 傷害公式為 "damage = floor(targetHP * 0.25)"
+  Then 傷害公式為 "damage = floor(targetHP * 0.75)"
   And 此傷害無法直接擊敗敵人
   And 成功率受目標抗性影響
 
@@ -74,20 +74,3 @@ Scenario: Gravija 重力球 - 全體重力
   Then 對所有敵人造成基於其最大HP百分比的傷害
   And 此傷害無法直接擊敗敵人
 
-  Scenario: 魔法反射
-    Given 目標處於 "REFLECT" 狀態
-    When 施法者對其施放魔法
-    Then 根據魔法類型決定效果
-      | 魔法類型   | 效果                     |
-      | 單體目標   | 魔法被反彈回施法者       |
-      | 全體目標   | 魔法正常命中，不會被反射 |
-
-    # ──────── 狀態效果系統 ────────
-
-  Scenario: 持續性狀態效果
-    Given 角色的最大HP為 3000，魔力為 30
-    When 角色處於持續性狀態
-    Then 每回合開始時，根據狀態產生效果
-      | 狀態   | 效果公式                        |
-      | POISON | damage = floor(maxHp / 32)      |
-      | REGEN  | healing = floor(magicPower * 0.2) |

@@ -1253,4 +1253,83 @@ public class BattleSteps {
         System.out.println("[DEBUG_LOG] Verifying damage modifications under different conditions");
     }
 
+    // ========== 缺失的角色物理攻擊步驟 ==========
+
+    @When("Gogo 進行物理攻擊")
+    public void gogo_進行物理攻擊() {
+        // 模擬Gogo進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Gogo performs physical attack");
+    }
+
+    @When("Mog 進行物理攻擊")
+    public void mog_進行物理攻擊() {
+        // 模擬Mog進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Mog performs physical attack");
+    }
+
+    @When("Relm 進行物理攻擊")
+    public void relm_進行物理攻擊() {
+        // 模擬Relm進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Relm performs physical attack");
+    }
+
+    @When("Setzer 進行物理攻擊")
+    public void setzer_進行物理攻擊() {
+        // 模擬Setzer進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Setzer performs physical attack");
+    }
+
+    @When("Shadow 進行物理攻擊")
+    public void shadow_進行物理攻擊() {
+        // 模擬Shadow進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Shadow performs physical attack");
+    }
+
+    @When("Strago 進行物理攻擊")
+    public void strago_進行物理攻擊() {
+        // 模擬Strago進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Strago performs physical attack");
+    }
+
+    @When("Umaro 進行物理攻擊")
+    public void umaro_進行物理攻擊() {
+        // 模擬Umaro進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Umaro performs physical attack");
+    }
+
+    @When("Edgar 進行物理攻擊")
+    public void edgar_進行物理攻擊() {
+        // 模擬Edgar進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Edgar performs physical attack");
+    }
+
+    @When("Locke 進行物理攻擊")
+    public void locke_進行物理攻擊() {
+        // 模擬Locke進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Locke performs physical attack");
+    }
+
+    @When("Sabin 進行物理攻擊")
+    public void sabin_進行物理攻擊() {
+        // 模擬Sabin進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Sabin performs physical attack");
+    }
+
+    @When("Terra 進行物理攻擊")
+    public void terra_進行物理攻擊() {
+        // 模擬Terra進行物理攻擊
+        gameState.performBasicPhysicalAttack();
+        System.out.println("[DEBUG_LOG] Terra performs physical attack");
+    }
+
 }

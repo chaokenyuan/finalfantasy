@@ -45,6 +45,8 @@ public class MagicCalculationService {
     public int calculateMagicDamage(MagicSpell spell, int magicPower, FF6Character target, int steps, int seconds) {
         int damage = 0;
         int randomBonus = randomService.nextInt(16); // 0~15 隨機值
+        
+        System.out.println("[DEBUG] calculateMagicDamage called with spell: '" + spell.getName() + "', steps=" + steps + ", seconds=" + seconds);
 
         switch (spell.getName()) {
             case "Fire":
@@ -150,7 +152,9 @@ public class MagicCalculationService {
             case "Traveler":
                 // 旅者之歌：步數 / 32 + 遊戲時間（秒） / 4
                 damage = steps / 32 + seconds / 4;
-                break;
+                System.out.println("[DEBUG] Traveler spell: steps=" + steps + ", seconds=" + seconds + ", damage=" + damage);
+                // Traveler spell can deal 0 damage when no progress has been made
+                return damage; // 特殊情況：允許0傷害，不使用Math.max(1, damage)
 
             case "Level 4 Flare":
                 // 等級4核爆：如果目標等級是4的倍數，則造成與Flare相同的傷害
@@ -224,10 +228,12 @@ public class MagicCalculationService {
 
             default:
                 // 預設計算：Spell Power × 魔力 + 隨機值
+                System.out.println("[DEBUG] Using default case for spell: '" + spell.getName() + "'");
                 damage = spell.getSpellPower() * magicPower + randomBonus;
                 break;
         }
-
+        
+        System.out.println("[DEBUG] Before Math.max - spell: '" + spell.getName() + "', damage=" + damage);
         return Math.max(1, damage);
     }
 
@@ -558,8 +564,9 @@ public class MagicCalculationService {
 
             // 複合增益
             case "Mighty Guard":
-            case "Big Guard":
                 return 20 + randomService.nextInt(11); // 20~30回合
+            case "Big Guard":
+                return 15 + randomService.nextInt(6); // 15~20回合 (持續時間較短，保證不超過Mighty Guard最小值)
 
             // 死亡宣告
             case "Doom":

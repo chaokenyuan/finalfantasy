@@ -11,7 +11,7 @@ Background:
 
 Scenario: Aqua Rake（水柱衝擊）
   Then 對所有敵人造成 "水" 屬性魔法傷害
-  And 傷害公式為 "damage = spellPower * magicPower"
+  And 青魔法傷害公式為 "damage = spellPower * magicPower"
   And 魔法無法被反射
 
 Scenario: Blow Fish（千針刺 / 1000 Needles）
@@ -20,12 +20,12 @@ Scenario: Blow Fish（千針刺 / 1000 Needles）
     | 1000  |
 
 Scenario: Traveler（旅程計算）
-  Then 傷害公式為 "damage = steps / 32 + gameTimeInSeconds / 4"
+  Then 青魔法傷害公式為 "damage = steps / 32 + gameTimeInSeconds / 4"
   And 輸出範圍依玩家遊戲進度而異，屬於後期強技
 
 Scenario: Revenge（報復）
-  Given 使用者的 "受損HP" 為 4000
-  Then 對目標造成的傷害公式為 "damage = userLostHP"
+  Given 青魔法師的 "受損HP" 為 4000
+  Then 青魔法對目標造成的傷害公式為 "damage = userLostHP"
 
 # ──────── 控場與異常狀態 ────────
 
@@ -41,15 +41,15 @@ Scenario: Bad Breath（臭氣）
 
 Scenario: Level 5 Death（等級5即死）
   Given 敵人等級為 30
-  Then 條件判斷為 "If enemyLevel % 5 == 0 Then enemy is defeated Else no effect"
+  Then 青魔法條件判斷為 "If enemyLevel % 5 == 0 Then enemy is defeated Else no effect"
 
 Scenario: Level 4 Flare
   Given 敵人等級為 20
-  Then 條件判斷為 "If enemyLevel % 4 == 0 Then cause non-elemental damage Else no effect"
+  Then 青魔法條件判斷為 "If enemyLevel % 4 == 0 Then cause non-elemental damage Else no effect"
 
 Scenario: Level 3 Muddle
   Given 敵人等級為 18
-  Then 條件判斷為 "If enemyLevel % 3 == 0 Then inflict 'Confusion' status Else no effect"
+  Then 青魔法條件判斷為 "If enemyLevel % 3 == 0 Then inflict 'Confusion' status Else no effect"
 
 Scenario: Stone（石化噴霧）
   Then 對單體敵人施加 "石化" 狀態
@@ -77,7 +77,7 @@ Scenario: Big Guard（強化全體防護）
   And 效果持續時間較短
 
 Scenario: Pep Up（自我犧牲）
-  Given 使用者的 "HP" 為 2000
+  Given 青魔法師的 "HP" 為 2000
   Then 使用者犧牲自己以完全治療一名隊友，並解除其所有異常狀態
 
 Scenario: Transfusion（HP 移轉）
