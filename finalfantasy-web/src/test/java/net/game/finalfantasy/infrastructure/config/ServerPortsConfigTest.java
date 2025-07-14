@@ -1,88 +1,123 @@
 package net.game.finalfantasy.infrastructure.config;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
+@DisplayName("ServerPortsConfig 測試")
 class ServerPortsConfigTest {
 
-    private ServerPortsConfig serverPortsConfig;
-
-    @BeforeEach
-    void setUp() {
-        serverPortsConfig = new ServerPortsConfig();
+    @ParameterizedTest(name = "[{index}] {0}")
+    @CsvSource(textBlock = """
+            # description
+            'GIVEN: 預設設定 WHEN: 建立ServerPortsConfig THEN: 回傳預設埠號值'
+            """)
+    @DisplayName("GIVEN: 預設設定 WHEN: 建立ServerPortsConfig THEN: 應回傳預設埠號值")
+    void testDefaultConfiguration(String description) {
+        // Given
+        ServerPortsConfig config = givenDefaultServerPortsConfig();
+        
+        // When
+        ServerPortsConfig result = whenCreateConfig(config);
+        
+        // Then
+        thenShouldHaveDefaultValues(result);
     }
 
-    @Test
-    void testDefaultConfiguration() {
-        assertNotNull(serverPortsConfig);
-        assertNotNull(serverPortsConfig.getHttp());
-        assertNotNull(serverPortsConfig.getGrpc());
-        assertNotNull(serverPortsConfig.getVertx());
-
-        // Test default values
-        assertEquals(8080, serverPortsConfig.getHttp().getPort());
-        assertEquals(9090, serverPortsConfig.getGrpc().getPort());
-        assertTrue(serverPortsConfig.getGrpc().isEnabled());
-        assertEquals(8081, serverPortsConfig.getVertx().getHttpPort());
-        assertEquals(8082, serverPortsConfig.getVertx().getSocketPort());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @CsvSource(textBlock = """
+            # description
+            'GIVEN: SIT環境設定 WHEN: 設定SIT埠號 THEN: 回傳SIT環境埠號值'
+            """)
+    @DisplayName("GIVEN: SIT環境設定 WHEN: 設定SIT埠號 THEN: 應回傳SIT環境埠號值")
+    void testSitConfiguration(String description) {
+        // Given
+        ServerPortsConfig config = givenSitServerPortsConfig();
+        
+        // When
+        ServerPortsConfig result = whenCreateConfig(config);
+        
+        // Then
+        thenShouldHaveSitValues(result);
     }
 
-    @Test
-    void testSitConfiguration() {
-        ServerPortsConfig sitConfig = new ServerPortsConfig();
-
-        // Manually set SIT environment values
-        sitConfig.getHttp().setPort(8180);
-        sitConfig.getGrpc().setPort(9190);
-        sitConfig.getGrpc().setEnabled(true);
-        sitConfig.getVertx().setHttpPort(8181);
-        sitConfig.getVertx().setSocketPort(8182);
-
-        assertNotNull(sitConfig);
-        assertEquals(8180, sitConfig.getHttp().getPort());
-        assertEquals(9190, sitConfig.getGrpc().getPort());
-        assertTrue(sitConfig.getGrpc().isEnabled());
-        assertEquals(8181, sitConfig.getVertx().getHttpPort());
-        assertEquals(8182, sitConfig.getVertx().getSocketPort());
+    @ParameterizedTest(name = "[{index}] {0}")
+    @CsvSource(textBlock = """
+            # description
+            'GIVEN: UAT環境設定 WHEN: 設定UAT埠號 THEN: 回傳UAT環境埠號值'
+            """)
+    @DisplayName("GIVEN: UAT環境設定 WHEN: 設定UAT埠號 THEN: 應回傳UAT環境埠號值")
+    void testUatConfiguration(String description) {
+        // Given
+        ServerPortsConfig config = givenUatServerPortsConfig();
+        
+        // When
+        ServerPortsConfig result = whenCreateConfig(config);
+        
+        // Then
+        thenShouldHaveUatValues(result);
     }
 
-    @Test
-    void testUatConfiguration() {
-        ServerPortsConfig uatConfig = new ServerPortsConfig();
-
-        // Manually set UAT environment values
-        uatConfig.getHttp().setPort(8280);
-        uatConfig.getGrpc().setPort(9290);
-        uatConfig.getGrpc().setEnabled(true);
-        uatConfig.getVertx().setHttpPort(8281);
-        uatConfig.getVertx().setSocketPort(8282);
-
-        assertNotNull(uatConfig);
-        assertEquals(8280, uatConfig.getHttp().getPort());
-        assertEquals(9290, uatConfig.getGrpc().getPort());
-        assertTrue(uatConfig.getGrpc().isEnabled());
-        assertEquals(8281, uatConfig.getVertx().getHttpPort());
-        assertEquals(8282, uatConfig.getVertx().getSocketPort());
+    private ServerPortsConfig givenDefaultServerPortsConfig() {
+        return new ServerPortsConfig();
     }
 
-    @Test
-    void testProdConfiguration() {
-        ServerPortsConfig prodConfig = new ServerPortsConfig();
+    private ServerPortsConfig givenSitServerPortsConfig() {
+        ServerPortsConfig config = new ServerPortsConfig();
+        config.getHttp().setPort(8180);
+        config.getGrpc().setPort(9190);
+        config.getGrpc().setEnabled(true);
+        config.getVertx().setHttpPort(8181);
+        config.getVertx().setSocketPort(8182);
+        return config;
+    }
 
-        // Manually set Production environment values (same as default)
-        prodConfig.getHttp().setPort(8080);
-        prodConfig.getGrpc().setPort(9090);
-        prodConfig.getGrpc().setEnabled(true);
-        prodConfig.getVertx().setHttpPort(8081);
-        prodConfig.getVertx().setSocketPort(8082);
+    private ServerPortsConfig givenUatServerPortsConfig() {
+        ServerPortsConfig config = new ServerPortsConfig();
+        config.getHttp().setPort(8280);
+        config.getGrpc().setPort(9290);
+        config.getGrpc().setEnabled(true);
+        config.getVertx().setHttpPort(8281);
+        config.getVertx().setSocketPort(8282);
+        return config;
+    }
 
-        assertNotNull(prodConfig);
-        assertEquals(8080, prodConfig.getHttp().getPort());
-        assertEquals(9090, prodConfig.getGrpc().getPort());
-        assertTrue(prodConfig.getGrpc().isEnabled());
-        assertEquals(8081, prodConfig.getVertx().getHttpPort());
-        assertEquals(8082, prodConfig.getVertx().getSocketPort());
+    private ServerPortsConfig whenCreateConfig(ServerPortsConfig config) {
+        return config;
+    }
+
+    private void thenShouldHaveDefaultValues(ServerPortsConfig result) {
+        assertNotNull(result);
+        assertNotNull(result.getHttp());
+        assertNotNull(result.getGrpc());
+        assertNotNull(result.getVertx());
+        assertEquals(8080, result.getHttp().getPort());
+        assertEquals(9090, result.getGrpc().getPort());
+        assertTrue(result.getGrpc().isEnabled());
+        assertEquals(8081, result.getVertx().getHttpPort());
+        assertEquals(8082, result.getVertx().getSocketPort());
+    }
+
+    private void thenShouldHaveSitValues(ServerPortsConfig result) {
+        assertNotNull(result);
+        assertEquals(8180, result.getHttp().getPort());
+        assertEquals(9190, result.getGrpc().getPort());
+        assertTrue(result.getGrpc().isEnabled());
+        assertEquals(8181, result.getVertx().getHttpPort());
+        assertEquals(8182, result.getVertx().getSocketPort());
+    }
+
+    private void thenShouldHaveUatValues(ServerPortsConfig result) {
+        assertNotNull(result);
+        assertEquals(8280, result.getHttp().getPort());
+        assertEquals(9290, result.getGrpc().getPort());
+        assertTrue(result.getGrpc().isEnabled());
+        assertEquals(8281, result.getVertx().getHttpPort());
+        assertEquals(8282, result.getVertx().getSocketPort());
     }
 }
