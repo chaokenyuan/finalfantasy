@@ -586,3 +586,4 @@ For questions, issues, or contributions, please:
 ---
 
 **Happy Gaming! 🎮✨**
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/chaokenyuan/finalfantasy)

@@ -706,3 +706,4 @@ public class ServerPortsConfig {
 ---
 
 **祝您遊戲愉快！🎮✨**
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/chaokenyuan/finalfantasy)
