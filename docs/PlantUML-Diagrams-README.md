@@ -132,6 +132,56 @@ These diagrams should be updated when:
 - Architectural patterns are modified
 - New modules or layers are introduced
 
+## 📝 Recent Architecture Updates
+
+### 2025-10-25 Refactoring
+The following architectural changes have been implemented. Diagrams should reflect:
+
+1. **Stateless BattleService Design** ([ADR-001](adr/ADR-001-stateless-battle-service.md))
+   - `BattleService` no longer stores state in instance variables
+   - Uses `ThreadLocal<String>` for battle context management
+   - All battle state managed through `Battle` domain object
+   - Thread-safe for concurrent battles
+
+2. **Type-Safe Equipment System** ([ADR-002](adr/ADR-002-equipment-type-system.md))
+   - New `EquipmentType` enum (WEAPON, SHIELD, HELMET, ARMOR, RELIC)
+   - `Equipment` enum includes type property
+   - Helper methods: `isWeapon()`, `isRelic()`, `isArmor()`
+   - Eliminates string-based type detection
+
+3. **Hero/FF6Character Separation**
+   - `Hero` = API DTO (simple data transfer)
+   - `FF6Character` = Rich domain model (battle logic)
+   - `HeroMapper` in infrastructure layer handles conversion
+
+### Key Classes to Reflect in Diagrams
+
+**Domain Layer**:
+- `Battle` - Aggregate root with battle state
+- `FF6Character` - Rich character model with battle mechanics
+- `Equipment` - Enum with type system
+- `EquipmentType` - New enum for categorization
+- `StatusEffect` - Character status effects
+- Domain services: `AtbCalculationService`, `DamageCalculationService`, `MagicCalculationService`
+
+**Application Layer**:
+- `BattleService` - Stateless service with ThreadLocal context
+- `BattleRepository` interface - Works with `Battle` objects
+- Input validation with `Objects.requireNonNull()`
+
+**Infrastructure Layer**:
+- `InMemoryBattleRepository` - Updated implementation
+- `HeroMapper` - New mapper for Hero ↔ FF6Character conversion
+- Vert.x servers (HTTP 8081, WebSocket 8082)
+
+### Current Tech Stack (for Diagram Annotations)
+- Spring Boot 3.5.3
+- Vert.x 4.5.10
+- Java 17
+- Cucumber 7.18.1 (繁體中文 BDD)
+- Maven 3.9+
+- Hexagonal Architecture pattern
+
 ## 🤖 Automated Class Diagram Generation
 
 ### Auto-Generated Class Diagrams
@@ -197,4 +247,24 @@ Both types of diagrams complement each other - use manual diagrams for understan
 
 ---
 
+## 📚 Related Documentation
+
+### Architecture Documentation
+- [Refactoring Summary](REFACTORING_SUMMARY.md) - Latest refactoring changes and improvements
+- [ADR Index](adr/README.md) - Architecture decision records
+- [Project Architecture](../.ai-docs/project-info/PROJECT-ARCHITECTURE.md) - Detailed architecture overview
+- [Project Overview](../.ai-docs/project-info/PROJECT-OVERVIEW.md) - Project summary and goals
+
+### Specific ADRs
+- [ADR-001: Stateless BattleService Design](adr/ADR-001-stateless-battle-service.md)
+- [ADR-002: Type-Safe Equipment System](adr/ADR-002-equipment-type-system.md)
+
+### Development Resources
+- [Workflow Guide](../.ai-docs/project-info/WORKFLOW-GUIDE.md) - Development workflow and best practices
+- [Tech Stack Configuration](../.ai-docs/tech-stacks.md) - Complete technology stack details
+- [Main README](../README.md) - Project setup and quick start
+
+---
+
 *Generated for Final Fantasy Project - A demonstration of Clean Architecture with Domain-Driven Design*
+*Last Updated: 2025-10-25*

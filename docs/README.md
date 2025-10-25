@@ -16,8 +16,16 @@ Welcome to the Final Fantasy game system documentation.
 
 ADRs document significant architectural decisions made during the project's development.
 
+- [ADR Index](adr/README.md) - Complete list of all ADRs (繁體中文)
 - [ADR-001: Stateless BattleService Design](adr/ADR-001-stateless-battle-service.md) - Thread-safe battle state management
 - [ADR-002: Equipment Type System](adr/ADR-002-equipment-type-system.md) - Type-safe equipment categorization
+
+### PlantUML Diagrams
+- [PlantUML Diagrams Guide](PlantUML-Diagrams-README.md) - Visual architecture documentation
+  - Overall Architecture
+  - Domain Model
+  - Application Layer (Ports & Adapters)
+  - Infrastructure Layer
 
 ### API Documentation
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html` (when running)
@@ -86,7 +94,9 @@ finalfantasy/
 
 ### For Architects
 - [Hexagonal Architecture](../project_architecture_overview.md)
-- [All ADRs](adr/)
+- [Project Architecture (Detailed)](../.ai-docs/project-info/PROJECT-ARCHITECTURE.md)
+- [All ADRs](adr/README.md)
+- [PlantUML Diagrams](PlantUML-Diagrams-README.md)
 - [Refactoring Log](REFACTORING_SUMMARY.md)
 
 ### For Operators
@@ -139,6 +149,13 @@ For REST endpoints:
 See [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) for full details.
 
 ## 📖 Additional Resources
+
+### Project Documentation (.ai-docs)
+- [Project Overview](../.ai-docs/project-info/PROJECT-OVERVIEW.md) - Comprehensive project summary
+- [Project Architecture](../.ai-docs/project-info/PROJECT-ARCHITECTURE.md) - Detailed architecture guide
+- [Workflow Guide](../.ai-docs/project-info/WORKFLOW-GUIDE.md) - Development best practices
+- [Tech Stack Configuration](../.ai-docs/tech-stacks.md) - Complete technology stack details
+- [Refactoring Changelog](../.ai-docs/CHANGELOG-REFACTORING.md) - Detailed change history
 
 ### Final Fantasy VI Game Mechanics
 - [FF6 Wiki](https://finalfantasy.fandom.com/wiki/Final_Fantasy_VI)

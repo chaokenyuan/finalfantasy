@@ -255,6 +255,38 @@ None. All changes are internal refactorings that maintain the existing API surfa
 
 ---
 
+## Architecture Decision Records (ADR)
+
+詳細的架構決策記錄：
+- [ADR-001: Stateless BattleService Design](adr/ADR-001-stateless-battle-service.md)
+- [ADR-002: Type-Safe Equipment System](adr/ADR-002-equipment-type-system.md)
+
+查看所有 ADR: [ADR Index](adr/README.md)
+
+---
+
+## Related Documentation
+
+### Project Documentation
+- [Project Overview](../.ai-docs/project-info/PROJECT-OVERVIEW.md) - 專案總覽
+- [Project Architecture](../.ai-docs/project-info/PROJECT-ARCHITECTURE.md) - 專案架構
+- [Workflow Guide](../.ai-docs/project-info/WORKFLOW-GUIDE.md) - 開發工作流程
+- [Refactoring Changelog](../.ai-docs/CHANGELOG-REFACTORING.md) - 詳細變更記錄
+
+### Technical Stack
+- [Tech Stack Configuration](../.ai-docs/tech-stacks.md) - 技術棧配置
+  - Spring Boot 3.5.3
+  - Vert.x 4.5.10
+  - Java 17
+  - Cucumber 7.18.1 (繁體中文 BDD)
+
+### Quality Standards
+- [QA Testing Standards](../.ai-docs/standards/qa-testing-standards.md)
+- [Code Review Standards](../.ai-docs/standards/code-review-standards.md)
+- [Developer Guide Standards](../.ai-docs/standards/developer-guide-standards.md)
+
+---
+
 ## References
 
 - [Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)
