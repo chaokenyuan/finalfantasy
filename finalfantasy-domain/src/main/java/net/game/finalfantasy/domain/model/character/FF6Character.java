@@ -162,17 +162,15 @@ public class FF6Character {
     // Methods to manage equipment
     public void equipItem(Equipment item) {
         this.equipment.add(item);
-        // Assuming that any item added via equipItem could potentially be a weapon.
-        // A more robust solution would involve an `isWeapon` property on the Equipment enum.
-        // For now, we'll increment weaponCount for simplicity based on the feature files.
-        if (item.getName().toLowerCase().contains("weapon") || item.getName().toLowerCase().contains("sword") || item.getName().toLowerCase().contains("dagger")) { // Simplified check for weapons
+        // Use type-based detection instead of string matching
+        if (item.isWeapon()) {
             this.weaponCount++;
         }
     }
 
     public void unequipItem(Equipment item) {
         this.equipment.remove(item);
-        if (item.getName().toLowerCase().contains("weapon") || item.getName().toLowerCase().contains("sword") || item.getName().toLowerCase().contains("dagger")) { // Simplified check for weapons
+        if (item.isWeapon()) {
             this.weaponCount--;
         }
     }

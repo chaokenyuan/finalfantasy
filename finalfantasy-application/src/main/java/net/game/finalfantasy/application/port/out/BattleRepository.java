@@ -1,6 +1,6 @@
 package net.game.finalfantasy.application.port.out;
 
-import net.game.finalfantasy.domain.model.character.FF6Character;
+import net.game.finalfantasy.domain.model.battle.Battle;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,55 +8,34 @@ import java.util.Optional;
  * Output port for battle persistence operations
  */
 public interface BattleRepository {
-    
+
     /**
-     * Save battle state
+     * Save or update a battle
      */
-    void saveBattleState(String battleId, List<FF6Character> allies, List<FF6Character> enemies, int turnCount);
-    
+    void save(Battle battle);
+
     /**
-     * Load battle state
+     * Find battle by ID
      */
-    Optional<BattleData> loadBattleState(String battleId);
-    
+    Optional<Battle> findById(String battleId);
+
     /**
-     * Delete battle state
+     * Delete battle
      */
-    void deleteBattleState(String battleId);
-    
+    void delete(String battleId);
+
     /**
      * Check if battle exists
      */
-    boolean battleExists(String battleId);
-    
+    boolean exists(String battleId);
+
     /**
      * Get all active battles
      */
-    List<String> getActiveBattles();
-    
+    List<Battle> findAllActive();
+
     /**
-     * Battle data transfer object
+     * Get all battle IDs
      */
-    class BattleData {
-        private final String battleId;
-        private final List<FF6Character> allies;
-        private final List<FF6Character> enemies;
-        private final int turnCount;
-        private final long lastUpdated;
-        
-        public BattleData(String battleId, List<FF6Character> allies, List<FF6Character> enemies, 
-                         int turnCount, long lastUpdated) {
-            this.battleId = battleId;
-            this.allies = allies;
-            this.enemies = enemies;
-            this.turnCount = turnCount;
-            this.lastUpdated = lastUpdated;
-        }
-        
-        public String getBattleId() { return battleId; }
-        public List<FF6Character> getAllies() { return allies; }
-        public List<FF6Character> getEnemies() { return enemies; }
-        public int getTurnCount() { return turnCount; }
-        public long getLastUpdated() { return lastUpdated; }
-    }
+    List<String> findAllBattleIds();
 }

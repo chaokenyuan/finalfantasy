@@ -1,0 +1,135 @@
+@startuml ai-docs-architecture
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam ranksep 40
+skinparam nodesep 20
+skinparam padding 8
+skinparam boxPadding 5
+skinparam ArrowThickness 1
+skinparam legendFontSize 11
+skinparam legendBackgroundColor #F5F5F5
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+title .ai-docs 技術團隊文檔架構層次
+
+' ========== 角色與知識管理體系關係表 ==========
+legend top left
+|= 角色 |= 主要職責 |= Standards (6) |= Patterns (2) |= ADR (5) |
+| **Architect** | 架構設計與決策 | - | ✓ | ✓ 創建 |
+| **Developer** | 功能實現 | ✓ Dev+QA+Review | ✓ | - |
+| **QA** | 測試與品質 | ✓ QA+Mutation+Contract | ✓ | - |
+| **Reviewer** | 代碼審查 | ✓ Review+QA+Dev | ✓ | - |
+| **SA** | 需求分析 | - | ✓ | - |
+| **SD** | 系統設計 | - | ✓ | ✓ 參考 |
+|
+**協作流程**: SA → SD → Architect → Developer → Reviewer → QA
+**知識流向**: 實踐經驗→Pattern | 架構決策→ADR | 實踐標準化→Standards
+endlegend
+
+' ========== Layer 0: 系統基礎 ==========
+package "Layer 0: 系統基礎配置" #E3F2FD {
+    [COMMAND-GUIDE.md\n完整使用指南] as GUIDE
+    [memory_management.md\nAI記憶管理] as MEMORY
+    [tech-stacks.md\nSpring Boot 3.2.0] as TECH
+}
+
+' ========== Layer 1: 角色指令系統 (7個角色) ==========
+package "Layer 1: 角色指令系統" #E1F5FE {
+    [init.md\n系統初始化] as INIT
+
+    together {
+        [sa.md\n系統分析師] as SA
+        [sd.md\n系統設計師] as SD
+        [architect.md\n架構師] as ARCH
+    }
+
+    together {
+        [developer.md\n開發員] as DEV
+        [qa.md\nQA測試員] as QA
+        [reviewer.md\n代碼審查員] as REV
+    }
+}
+
+' ========== Layer 2: 知識管理體系 ==========
+package "Layer 2: 知識管理體系" #F3E5F5 {
+
+    package "standards/ (6個標準)" as STDS {
+        together {
+            [qa-testing-standards.md] as QA_STD
+            [code-review-standards.md] as REV_STD
+            [developer-guide-standards.md] as DEV_STD
+        }
+        together {
+            [mutation-testing-standards.md] as MUT_STD
+            [contract-testing-standards.md] as CON_STD
+            [develop-guide-doc-generator-standards.md] as DOC_STD
+        }
+    }
+
+    package "patterns/ (2個文件)" as PATS {
+        together {
+            [pattern-library-index.md] as PAT_IDX
+            [PATTERN-TEMPLATE.md] as PAT_TPL
+        }
+    }
+
+    package "adr/ (5個文件)" as ADRS {
+        together {
+            [ADR-TEMPLATE.md] as ADR_TPL
+            [ADR-TEMPLATE-event-sourcing.md] as ADR_ES
+            [ADR-TEMPLATE-knowledge-graph.md] as ADR_KG
+        }
+        together {
+            [ADR-001-architecture-decision-records.md] as ADR1
+            [ADR-002-mutation-testing-strategy.md] as ADR2
+        }
+    }
+}
+
+' ========== Layer 3: 專案資訊 (3個文件) ==========
+package "Layer 3: 專案資訊" #FFE0B2 {
+    [PROJECT-OVERVIEW.md\n專案概覽] as OVERVIEW
+    [WORKFLOW-GUIDE.md\n工作流程指南] as WORKFLOW
+    [PROJECT-ARCHITECTURE.md\n專案架構設計] as PROJ_ARCH
+}
+
+' ========== 系統入口與基礎 ==========
+GUIDE ..> INIT
+TECH --> INIT
+
+' ========== INIT 啟動所有角色 ==========
+INIT --> SA
+INIT --> SD
+INIT --> ARCH
+INIT --> DEV
+INIT --> QA
+INIT --> REV
+
+' ========== 角色使用知識體系 ==========
+ARCH ..> ADRS
+ARCH ..> PATS
+DEV ..> STDS
+DEV ..> PATS
+QA ..> STDS
+QA ..> PATS
+REV ..> STDS
+REV ..> PATS
+SA ..> PATS
+SD ..> PATS
+SD ..> ADRS
+
+' ========== 模板與實例關係 ==========
+PAT_IDX ..> PAT_TPL
+ADR1 ..> ADR_TPL
+ADR2 ..> ADR_TPL
+ADR_TPL ..> ADR_ES
+ADR_TPL ..> ADR_KG
+
+' ========== 輸出專案資訊 ==========
+ARCH ..> PROJ_ARCH
+SD ..> PROJ_ARCH
+INIT ..> OVERVIEW
+INIT ..> WORKFLOW
+
+@enduml
